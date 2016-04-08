@@ -6,6 +6,7 @@
 - Android 4.2.2 Jelly Bean (API lvl 17) or greater
 - Your favorite IDE
 ​
+
 ## Installation
 ​
 Just download the package from [here](/path/to/lib) and add it to your project classpath, or just use the maven repo:
