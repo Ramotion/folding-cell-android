@@ -8,7 +8,7 @@
 ​
 - Android 4.2.2 Jelly Bean (API lvl 17) or greater
 - Your favorite IDE
-​
+
 ## Installation
 ​
 Just download the package from [here](/path/to/lib) and add it to your project classpath, or just use the maven repo:
@@ -109,18 +109,19 @@ protected void onCreate(Bundle savedInstanceState) {
 }
 ```
 ​
-5. Extra step - customizing settings of cell. For now there are two main parameters - animation time and back color. There are two ways to change them:
-From xml layout with auto namespace `xmlns:folding-cell="http://schemas.android.com/apk/res-auto"`:
+5. Extra step - customizing cell settings. For now, there are three main parameters - animation time, back side color and additional flips count. If first two do not cause questions, the third requires an some explanation. It is count of flips to be executed after first(main) flip. Default value is `0`(auto choose). There are two ways to change cell settings:
+From xml layout file with namespace `xmlns:folding-cell="http://schemas.android.com/apk/res-auto"`:
 ```
 folding-cell:animationDuration="1000"
 folding-cell:backSideColor="@color/bgBackSideColor"
+folding-cell:additionalFlipsCount="2"
 ```
 Or from code:
 ```
 // get our folding cell
 final FoldingCell fc = (FoldingCell) findViewById(R.id.folding_cell);
 // set custom parameters
-fc.initialize(100, Color.DKGRAY);
+fc.initialize(1000, Color.DKGRAY, 2);
 ```
 ​
 You can find this and other, more complex, examples in this repository

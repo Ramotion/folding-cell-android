@@ -4,13 +4,17 @@
     android:layout_height="wrap_content"
     android:background="@drawable/title_view_bg_shape"
     android:orientation="vertical"
-        android:visibility="gone">
+    android:visibility="gone">
 
+    <!-- content header line -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/content_view_bg_shape_top_part"
-        android:padding="12dp">
+        android:paddingBottom="7dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:paddingTop="7dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -38,6 +42,7 @@
 
     </RelativeLayout>
 
+    <!-- content header image -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -109,15 +114,17 @@
 
     </RelativeLayout>
 
+    <!-- content body layout -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingBottom="10dp"
+        android:paddingBottom="6dp"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        android:paddingTop="15dp">
+        android:paddingTop="9dp">
 
+        <!-- avatar and name part -->
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent">
@@ -128,7 +135,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
-                android:layout_marginBottom="4dp"
+                android:layout_marginBottom="5dp"
                 android:text="@string/sender_badge" />
 
             <ImageView
@@ -178,17 +185,17 @@
                 android:layout_centerVertical="true"
                 android:src="@drawable/arrow" />
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_below="@id/content_avatar"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="15dp"
-                android:layout_marginTop="15dp"
-                android:src="@color/contentDividerLine" />
-
         </RelativeLayout>
 
+        <!-- divider line -->
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="6dp"
+            android:layout_marginTop="9dp"
+            android:src="@color/contentDividerLine" />
+
+        <!-- addresses part -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -276,13 +283,15 @@
 
         </LinearLayout>
 
+        <!-- divider line -->
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginBottom="15dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginBottom="6dp"
+            android:layout_marginTop="7dp"
             android:src="@color/contentDividerLine" />
 
+        <!-- dates part -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -362,26 +371,26 @@
 
         </LinearLayout>
 
+        <!-- request button -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="16dp"
             android:background="@drawable/content_req_btn_bg_shape"
             android:padding="10dp"
             android:text="@string/request_btn_text"
             android:textAlignment="center"
             android:textColor="@color/mainTextColor"
-            android:textSize="22sp" />
+            android:textSize="20sp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="4dp"
             android:text="@string/btn_annotation_mock"
             android:textAlignment="center"
             android:textColor="@color/contentBadgeTitle"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
     </LinearLayout>
 

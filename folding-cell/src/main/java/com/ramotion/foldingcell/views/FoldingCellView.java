@@ -81,6 +81,14 @@ public class FoldingCellView extends RelativeLayout {
         return this;
     }
 
+    public View getBackView() {
+        return mBackView;
+    }
+
+    public View getFrontView() {
+        return mFrontView;
+    }
+
     public void animateFrontView(Animation animation) {
         if (this.mFrontView != null)
             mFrontView.startAnimation(animation);
