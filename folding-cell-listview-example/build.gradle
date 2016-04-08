@@ -1,15 +1,17 @@
 apply plugin: 'com.android.application'
 
+group = 'com.ramotion.foldingcell.examples'
+version = '1.0.0'
+
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.2"
-
+    buildToolsVersion '23.0.3'
     defaultConfig {
-        applicationId "com.ramotion.foldingcell.example"
+        applicationId 'com.ramotion.foldingcell.examples.listview'
         minSdkVersion 17
         targetSdkVersion 23
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
     }
     buildTypes {
         release {
@@ -17,11 +19,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    productFlavors {
+    }
 }
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.2.0'
     compile project(':folding-cell')
+    compile 'com.android.support:appcompat-v7:23.2.1'
+    compile 'com.android.support:support-v4:23.2.1'
 }

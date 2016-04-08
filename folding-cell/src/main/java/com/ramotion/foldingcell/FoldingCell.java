@@ -38,10 +38,12 @@ public class FoldingCell extends RelativeLayout {
     // default values
     private final int DEF_ANIMATION_DURATION = 1000;
     private final int DEF_BACK_SIDE_COLOR = Color.GRAY;
+    private final int DEF_ADDITIONAL_FLIPS = 0;
 
     // current settings
     private int mAnimationDuration = DEF_ANIMATION_DURATION;
     private int mBackSideColor = DEF_BACK_SIDE_COLOR;
+    private int mAdditionalFlipsCount = DEF_ADDITIONAL_FLIPS;
 
     public FoldingCell(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -66,12 +68,14 @@ public class FoldingCell extends RelativeLayout {
     /**
      * Initializes folding cell programmatically with custom settings
      *
-     * @param animationDuration animation duration, default is 1000
-     * @param backSideColor     color of back side, default is android.graphics.Color.GREY (0xFF888888)
+     * @param animationDuration    animation duration, default is 1000
+     * @param backSideColor        color of back side, default is android.graphics.Color.GREY (0xFF888888)
+     * @param additionalFlipsCount count of additional flips (after first one), set 0 for auto
      */
-    public void initialize(int animationDuration, int backSideColor) {
+    public void initialize(int animationDuration, int backSideColor, int additionalFlipsCount) {
         this.mAnimationDuration = animationDuration;
         this.mBackSideColor = backSideColor;
+        this.mAdditionalFlipsCount = additionalFlipsCount;
     }
 
     /**
@@ -105,14 +109,16 @@ public class FoldingCell extends RelativeLayout {
         Bitmap bitmapFromTitleView = getBitmapFromView(titleView, this.getMeasuredWidth());
         Bitmap bitmapFromContentView = getBitmapFromView(contentView, this.getMeasuredWidth());
 
+        // calculate heights of animation parts
+        ArrayList<Integer> heights = calculateHeightsForAnimationParts(titleView.getHeight(), contentView.getHeight(), mAdditionalFlipsCount);
+
         // create list with animation parts for animation
-        ArrayList<FoldingCellView> foldingCellElements = prepareViewsForAnimation(bitmapFromTitleView, bitmapFromContentView);
+        ArrayList<FoldingCellView> foldingCellElements = prepareViewsForAnimation(heights, bitmapFromTitleView, bitmapFromContentView);
 
         // start fold animation with end listener
         int childCount = foldingCellElements.size();
-        int view90degreeAnimationDuration = mAnimationDuration / (childCount * 2);
-
-        startUnfoldAnimation(foldingCellElements, foldingLayout, view90degreeAnimationDuration, new AnimationEndListener() {
+        int part90degreeAnimationDuration = mAnimationDuration / (childCount * 2);
+        startUnfoldAnimation(foldingCellElements, foldingLayout, part90degreeAnimationDuration, new AnimationEndListener() {
             public void onAnimationEnd(Animation animation) {
                 contentView.setVisibility(VISIBLE);
                 foldingLayout.setVisibility(GONE);
@@ -122,9 +128,7 @@ public class FoldingCell extends RelativeLayout {
             }
         });
 
-        int height = titleView.getHeight();
-        int smallHeight = bitmapFromContentView.getHeight() % height;
-        startExpandHeightAnimation(childCount, view90degreeAnimationDuration * 2, height, smallHeight);
+        startExpandHeightAnimation(heights, part90degreeAnimationDuration * 2);
         this.mAnimationInProgress = true;
     }
 
@@ -159,8 +163,11 @@ public class FoldingCell extends RelativeLayout {
         titleView.setVisibility(GONE);
         contentView.setVisibility(GONE);
 
-        // create views list with bitmap parts for fold animation
-        ArrayList<FoldingCellView> foldingCellElements = prepareViewsForAnimation(bitmapFromTitleView, bitmapFromContentView);
+        // calculate heights of animation parts
+        ArrayList<Integer> heights = calculateHeightsForAnimationParts(titleView.getHeight(), contentView.getHeight(), mAdditionalFlipsCount);
+
+        // create list with animation parts for animation
+        ArrayList<FoldingCellView> foldingCellElements = prepareViewsForAnimation(heights, bitmapFromTitleView, bitmapFromContentView);
 
         int childCount = foldingCellElements.size();
         int part90degreeAnimationDuration = mAnimationDuration / (childCount * 2);
@@ -178,9 +185,8 @@ public class FoldingCell extends RelativeLayout {
             }
         });
 
-        int height = titleView.getHeight();
-        int smallHeight = bitmapFromContentView.getHeight() % height;
-        startCollapseHeightAnimation(childCount, part90degreeAnimationDuration * 2, height, smallHeight);
+        startCollapseHeightAnimation(heights, part90degreeAnimationDuration * 2);
+
         this.mAnimationInProgress = true;
     }
 
@@ -203,36 +209,76 @@ public class FoldingCell extends RelativeLayout {
      * @param contentViewBitmap bitmap from content view
      * @return list of FoldingCellViews with bitmap parts
      */
-    protected ArrayList<FoldingCellView> prepareViewsForAnimation(Bitmap titleViewBitmap, Bitmap contentViewBitmap) {
-        int contentViewHeight = contentViewBitmap.getHeight();
-        int partHeight = titleViewBitmap.getHeight();
-        int partWidth = titleViewBitmap.getWidth();
-        int partsCount = contentViewHeight / partHeight;
-        int restPartHeight = contentViewHeight % partHeight;
+    protected ArrayList<FoldingCellView> prepareViewsForAnimation(ArrayList<Integer> viewHeights, Bitmap titleViewBitmap, Bitmap contentViewBitmap) {
+        if (viewHeights == null || viewHeights.isEmpty())
+            throw new IllegalArgumentException("ViewHeights array must be not null and not empty");
 
         ArrayList<FoldingCellView> partsList = new ArrayList<>();
-        for (int i = 0; i < partsCount; i++) {
+
+        int partWidth = titleViewBitmap.getWidth();
+        int yOffset = 0;
+        for (int i = 0; i < viewHeights.size(); i++) {
+            int partHeight = viewHeights.get(i);
             Bitmap partBitmap = Bitmap.createBitmap(partWidth, partHeight, Bitmap.Config.ARGB_8888);
             Canvas canvas = new Canvas(partBitmap);
-            Rect srcRect = new Rect(0, i * partHeight, partWidth, (i + 1) * partHeight);
+            Rect srcRect = new Rect(0, yOffset, partWidth, yOffset + partHeight);
             Rect destRect = new Rect(0, 0, partWidth, partHeight);
             canvas.drawBitmap(contentViewBitmap, srcRect, destRect, null);
             ImageView backView = createImageViewFromBitmap(partBitmap);
-            ImageView frontView = (i == 0) ?
-                    createImageViewFromBitmap(titleViewBitmap) :
-                    createBackSideView((i == partsCount - 1) ? restPartHeight : partHeight);
+            ImageView frontView = null;
+            if (i < viewHeights.size() - 1) {
+                frontView = (i == 0) ? createImageViewFromBitmap(titleViewBitmap) : createBackSideView(viewHeights.get(i + 1));
+            }
             partsList.add(new FoldingCellView(frontView, backView, getContext()));
+            yOffset = yOffset + partHeight;
         }
 
-        if (restPartHeight > 0) {
-            Bitmap partBitmap = Bitmap.createBitmap(partWidth, restPartHeight, Bitmap.Config.ARGB_8888);
-            Canvas canvas = new Canvas(partBitmap);
-            Rect srcRect = new Rect(0, partsCount * partHeight, partWidth, contentViewHeight);
-            Rect desRect = new Rect(0, 0, partWidth, restPartHeight);
-            canvas.drawBitmap(contentViewBitmap, srcRect, desRect, null);
-            partsList.add(new FoldingCellView(null, createImageViewFromBitmap(partBitmap), getContext()));
-        }
         return partsList;
+    }
+
+    /**
+     * Calculate heights for animation parts with some logic
+     * TODO: Add detailed descriptions for logic
+     *
+     * @param titleViewHeight      height of title view
+     * @param contentViewHeight    height of content view
+     * @param additionalFlipsCount count of additional flips (after first one), set 0 for auto
+     * @return list of calculated heights
+     */
+    protected ArrayList<Integer> calculateHeightsForAnimationParts(int titleViewHeight, int contentViewHeight, int additionalFlipsCount) {
+        ArrayList<Integer> partHeights = new ArrayList<>();
+        int additionalPartsTotalHeight = contentViewHeight - titleViewHeight * 2;
+        if (additionalPartsTotalHeight < 0)
+            throw new IllegalStateException("Content View height is too small");
+        // add two main parts - guarantee first flip
+        partHeights.add(titleViewHeight);
+        partHeights.add(titleViewHeight);
+
+        // if no space left - return
+        if (additionalPartsTotalHeight == 0)
+            return partHeights;
+
+        // if some space remained - use two different logic
+        if (additionalFlipsCount != 0) {
+            // 1 - additional parts count is specified and it is not 0 - divide remained space
+            int additionalPartHeight = additionalPartsTotalHeight / additionalFlipsCount;
+            int remainingHeight = additionalPartsTotalHeight % additionalFlipsCount;
+
+            if (additionalPartHeight + remainingHeight > titleViewHeight)
+                throw new IllegalStateException("additional parts count is too small");
+            for (int i = 0; i < additionalFlipsCount; i++)
+                partHeights.add(additionalPartHeight + (i == 0 ? remainingHeight : 0));
+        } else {
+            // 2 - additional parts count isn't specified or 0 - divide remained space to parts with title view size
+            int partsCount = additionalPartsTotalHeight / titleViewHeight;
+            int restPartHeight = additionalPartsTotalHeight % titleViewHeight;
+            for (int i = 0; i < partsCount; i++)
+                partHeights.add(titleViewHeight);
+            if (restPartHeight > 0)
+                partHeights.add(restPartHeight);
+        }
+
+        return partHeights;
     }
 
     /**
@@ -297,19 +343,20 @@ public class FoldingCell extends RelativeLayout {
     /**
      * Prepare and start height expand animation for FoldingCellLayout
      *
-     * @param partsCount            total count of fold animation parts
      * @param partAnimationDuration one part animate duration
-     * @param bigPartHeight         height of animation part
-     * @param smallPartHeight       height of last (small) animation part
+     * @param viewHeights           heights of animation parts
      */
-    protected void startExpandHeightAnimation(int partsCount, int partAnimationDuration, int bigPartHeight, int smallPartHeight) {
+    protected void startExpandHeightAnimation(ArrayList<Integer> viewHeights, int partAnimationDuration) {
+        if (viewHeights == null || viewHeights.isEmpty())
+            throw new IllegalArgumentException("ViewHeights array must have at least 2 elements");
+
         ArrayList<Animation> heightAnimations = new ArrayList<>();
-        for (int i = 1; i < partsCount; i++) {
-            int heightDelta = i != partsCount - 1 ? bigPartHeight : smallPartHeight;
-            HeightAnimation heightAnimation = new HeightAnimation(this, i * bigPartHeight, i * bigPartHeight + heightDelta);
-            heightAnimation.setDuration(partAnimationDuration);
-            heightAnimation.setInterpolator(new DecelerateInterpolator());
-            heightAnimations.add(heightAnimation);
+        int fromHeight = viewHeights.get(0);
+        for (int i = 1; i < viewHeights.size(); i++) {
+            int toHeight = fromHeight + viewHeights.get(i);
+            heightAnimations.add(new HeightAnimation(this, fromHeight, toHeight, partAnimationDuration)
+                    .withInterpolator(new DecelerateInterpolator()));
+            fromHeight = toHeight;
         }
         createAnimationChain(heightAnimations, this);
         this.startAnimation(heightAnimations.get(0));
@@ -318,21 +365,23 @@ public class FoldingCell extends RelativeLayout {
     /**
      * Prepare and start height collapse animation for FoldingCellLayout
      *
-     * @param partsCount            total count of fold animation parts
      * @param partAnimationDuration one part animate duration
-     * @param bigPartHeight         height of animation part
-     * @param smallPartHeight       height of last (small) animation part
+     * @param viewHeights           heights of animation parts
      */
-    protected void startCollapseHeightAnimation(int partsCount, int partAnimationDuration, int bigPartHeight, int smallPartHeight) {
+    protected void startCollapseHeightAnimation(ArrayList<Integer> viewHeights, int partAnimationDuration) {
+        if (viewHeights == null || viewHeights.isEmpty())
+            throw new IllegalArgumentException("ViewHeights array must have at least 2 elements");
+
         ArrayList<Animation> heightAnimations = new ArrayList<>();
-        for (int i = partsCount; i > 1; i--) {
-            int currentHeight = (i - 1) * bigPartHeight + ((i == partsCount) ? smallPartHeight : bigPartHeight);
-            int heightDelta = (i == partsCount) ? smallPartHeight : bigPartHeight;
-            HeightAnimation heightAnimation = new HeightAnimation(this, currentHeight, currentHeight - heightDelta);
-            heightAnimation.setDuration(partAnimationDuration);
-            heightAnimation.setInterpolator(new DecelerateInterpolator());
-            heightAnimations.add(heightAnimation);
+        int fromHeight = viewHeights.get(0);
+        for (int i = 1; i < viewHeights.size(); i++) {
+            int toHeight = fromHeight + viewHeights.get(i);
+            heightAnimations.add(new HeightAnimation(this, toHeight, fromHeight, partAnimationDuration)
+                    .withInterpolator(new DecelerateInterpolator()));
+            fromHeight = toHeight;
         }
+
+        Collections.reverse(heightAnimations);
         createAnimationChain(heightAnimations, this);
         this.startAnimation(heightAnimations.get(0));
     }
@@ -449,6 +498,7 @@ public class FoldingCell extends RelativeLayout {
         try {
             this.mAnimationDuration = array.getInt(R.styleable.FoldingCell_animationDuration, DEF_ANIMATION_DURATION);
             this.mBackSideColor = array.getColor(R.styleable.FoldingCell_backSideColor, DEF_BACK_SIDE_COLOR);
+            this.mAdditionalFlipsCount = array.getInt(R.styleable.FoldingCell_additionalFlipsCount, DEF_ADDITIONAL_FLIPS);
         } finally {
             array.recycle();
         }

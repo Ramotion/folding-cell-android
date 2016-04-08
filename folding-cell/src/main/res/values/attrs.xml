@@ -3,5 +3,6 @@
     <declare-styleable name="FoldingCell">
         <attr name="backSideColor" format="color" />
         <attr name="animationDuration" format="integer" />
+        <attr name="additionalFlipsCount" format="integer" />
     </declare-styleable>
 </resources>

@@ -1,14 +1,18 @@
 apply plugin: 'com.android.library'
+apply plugin: 'signing'
+apply plugin: 'com.bmuschko.nexus'
+
+group = 'com.ramotion.foldingcell'
+version = '1.0.0'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.2"
-
+    buildToolsVersion '23.0.3'
     defaultConfig {
         minSdkVersion 17
         targetSdkVersion 23
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
     }
     buildTypes {
         release {
@@ -16,9 +20,56 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
+}
+
+modifyPom {
+    project {
+        name 'Folding Cell for Android'
+        description 'FoldingCell is an expanding content cell inspired by folding paper material http://ramotion.com'
+        url 'https://github.com/Ramotion/folding-cell-android'
+        inceptionYear '2016'
+
+        scm {
+            url 'https://github.com/Ramotion/folding-cell-android'
+            connection 'scm:git@github.com:Ramotion/folding-cell-android.git'
+            developerConnection 'scm:git@github.com:Ramotion/folding-cell-android.git'
+        }
+
+        licenses {
+            license {
+                name 'The MIT License (MIT)'
+                url 'https://opensource.org/licenses/mit-license.php'
+                distribution 'repo'
+            }
+        }
+
+        developers {
+            developer {
+                id 'oleg-vasiliev'
+                name 'Oleg Vasiliev'
+                email 'oleg-vasiliev@hotmail.com'
+            }
+        }
+    }
+}
+
+extraArchive {
+    sources = false
+    tests = false
+    javadoc = false
+}
+
+nexus {
+    sign = true
+    repositoryUrl = 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
+    snapshotRepositoryUrl = 'https://oss.sonatype.org/content/repositories/snapshots/'
 }

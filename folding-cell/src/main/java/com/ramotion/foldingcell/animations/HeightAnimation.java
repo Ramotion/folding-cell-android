@@ -2,6 +2,7 @@ package com.ramotion.foldingcell.animations;
 
 import android.view.View;
 import android.view.animation.Animation;
+import android.view.animation.Interpolator;
 import android.view.animation.Transformation;
 
 /**
@@ -13,10 +14,18 @@ public class HeightAnimation extends Animation {
     private final int mHeightFrom;
     private final int mHeightTo;
 
-    public HeightAnimation(View mView, int heightFrom, int heightTo) {
+    public HeightAnimation(View mView, int heightFrom, int heightTo, int duration) {
         this.mView = mView;
         this.mHeightFrom = heightFrom;
         this.mHeightTo = heightTo;
+        this.setDuration(duration);
+    }
+
+    public HeightAnimation withInterpolator(Interpolator interpolator) {
+        if (interpolator != null) {
+            this.setInterpolator(interpolator);
+        }
+        return this;
     }
 
     @Override
