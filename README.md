@@ -1,4 +1,5 @@
 # FoldingCell for Android
+[![Circle CI](https://circleci.com/gh/Ramotion/folding-cell-android.svg?style=svg)](https://circleci.com/gh/Ramotion/folding-cell-android)
 
 ## Requirements
 ​
