@@ -4,7 +4,7 @@
 [![Twitter](https://img.shields.io/badge/Twitter-@Ramotion-blue.svg?style=flat)](http://twitter.com/Ramotion)
 
 
-![Animation](folding_cell.gif)
+![Animation](Folding_cell.gif)
 
 ## Requirements
 ​
