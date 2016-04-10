@@ -3,6 +3,9 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/grade/339ae33122964163a55a5e8e90619cbc)](https://www.codacy.com/app/juri-v/folding-cell-android)
 [![Twitter](https://img.shields.io/badge/Twitter-@Ramotion-blue.svg?style=flat)](http://twitter.com/Ramotion)
 
+
+![Animation](folding_cell.gif)
+
 ## Requirements
 ​
 - Android 4.2.2 Jelly Bean (API lvl 17) or greater
