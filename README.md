@@ -4,6 +4,8 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/grade/339ae33122964163a55a5e8e90619cbc)](https://www.codacy.com/app/juri-v/folding-cell-android)
 [![Twitter](https://img.shields.io/badge/Twitter-@Ramotion-blue.svg?style=flat)](http://twitter.com/Ramotion)
 
+![Animation](folding_cell_preview.gif)
+
 ## Requirements
 ​
 - Android 4.2.2 Jelly Bean (API lvl 17) or greater
@@ -11,22 +13,22 @@
 
 ## Installation
 ​
-Just download the package from [here](/path/to/lib) and add it to your project classpath, or just use the maven repo:
+Just download the package from [here](http://central.maven.org/maven2/com/ramotion/foldingcell/folding-cell/1.0.0/folding-cell-1.0.0.aar) and add it to your project classpath, or just use the maven repo:
 ​
 Gradle:
 ```
-'com.ramotion.foldingcell:folding-cell:1.0'
+'com.ramotion.foldingcell:folding-cell:1.0.0'
 ```
 SBT:
 ```
-libraryDependencies += "com.ramotion.foldingcell" % "folding-cell" % "1.0"
+libraryDependencies += "com.ramotion.foldingcell" % "folding-cell" % "1.0.0"
 ```
 Maven:
 ```
 <dependency>
 	<groupId>com.ramotion.foldingcell</groupId>
 	<artifactId>folding-cell</artifactId>
-	<version>1.0</version>
+	<version>1.0.0</version>
 </dependency>
 ```
 ​
@@ -81,7 +83,7 @@ Maven:
 ...
 ```
 ​
-3. Almost done! Two steps remain! For correct animation, you need to set up two properties on the root element of your Folding Cell:
+3. Almost done! Two steps remain! For correct animation, you need to set up two properties on the root element(s) of your Folding Cell:
 ​
 ```
 android:clipChildren="false"
@@ -110,7 +112,7 @@ protected void onCreate(Bundle savedInstanceState) {
 ```
 ​
 5. Extra step - customizing cell settings. For now, there are three main parameters - animation time, back side color and additional flips count. If first two do not cause questions, the third requires an some explanation. It is count of flips to be executed after first(main) flip. Default value is `0`(auto choose). There are two ways to change cell settings:
-From xml layout file with namespace `xmlns:folding-cell="http://schemas.android.com/apk/res-auto"`:
+From xml layout file with `res-auto` namespace `xmlns:folding-cell="http://schemas.android.com/apk/res-auto"`:
 ```
 folding-cell:animationDuration="1000"
 folding-cell:backSideColor="@color/bgBackSideColor"
@@ -129,7 +131,7 @@ You can find this and other, more complex, examples in this repository
 ## Licence
 ​
 Folding cell is released under the MIT license.
-See [LICENSE](./LICENSE) for details.
+See [LICENSE](./LICENSE.md) for details.
 ​
 ## About
 The project maintained by [app development agency](https://ramotion.com?utm_source=gthb&utm_medium=special&utm_campaign=foolding-cell-android) [Ramotion Inc.](https://ramotion.com?utm_source=gthb&utm_medium=special&utm_campaign=foolding-cell-android)
