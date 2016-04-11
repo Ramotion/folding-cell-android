@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/title_view_bg_shape"
+    android:background="@color/bgContent"
     android:baselineAligned="false"
     android:orientation="horizontal">
 
@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="155dp"
         android:layout_weight="3"
-        android:background="@drawable/title_view_bg_shape_left_part"
+        android:background="@color/bgTitleLeft"
         android:gravity="center_horizontal"
         android:orientation="vertical"
         android:paddingBottom="20dp"
@@ -52,7 +52,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:background="@drawable/title_view_bg_shape_right_part"
+        android:background="@color/bgTitleRight"
         android:paddingBottom="20dp"
         android:paddingEnd="20dp"
         android:paddingStart="15dp"

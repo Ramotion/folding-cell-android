@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/title_view_bg_shape"
     android:orientation="vertical"
     android:visibility="gone">
 
@@ -10,7 +9,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/content_view_bg_shape_top_part"
+        android:background="@color/bgContentTop"
         android:paddingBottom="7dp"
         android:paddingLeft="12dp"
         android:paddingRight="12dp"
@@ -116,6 +115,7 @@
 
     <!-- content body layout -->
     <LinearLayout
+        android:background="@color/bgContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -376,9 +376,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:background="@drawable/content_req_btn_bg_shape"
             android:padding="10dp"
             android:text="@string/request_btn_text"
+            android:background="@color/btnRequest"
             android:textAlignment="center"
             android:textColor="@color/mainTextColor"
             android:textSize="20sp" />
