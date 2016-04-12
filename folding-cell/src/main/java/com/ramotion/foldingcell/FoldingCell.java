@@ -26,6 +26,7 @@ import java.util.List;
 
 /**
  * Very first implementation of Folding Cell by Ramotion for Android platform
+ * TODO: Update javadoc
  */
 public class FoldingCell extends RelativeLayout {
 
@@ -211,7 +212,7 @@ public class FoldingCell extends RelativeLayout {
      */
     protected ArrayList<FoldingCellView> prepareViewsForAnimation(ArrayList<Integer> viewHeights, Bitmap titleViewBitmap, Bitmap contentViewBitmap) {
         if (viewHeights == null || viewHeights.isEmpty())
-            throw new IllegalArgumentException("ViewHeights array must be not null and not empty");
+            throw new IllegalStateException("ViewHeights array must be not null and not empty");
 
         ArrayList<FoldingCellView> partsList = new ArrayList<>();
 
@@ -265,7 +266,7 @@ public class FoldingCell extends RelativeLayout {
             int remainingHeight = additionalPartsTotalHeight % additionalFlipsCount;
 
             if (additionalPartHeight + remainingHeight > titleViewHeight)
-                throw new IllegalStateException("additional parts count is too small");
+                throw new IllegalStateException("Additional flips count is too small");
             for (int i = 0; i < additionalFlipsCount; i++)
                 partHeights.add(additionalPartHeight + (i == 0 ? remainingHeight : 0));
         } else {
