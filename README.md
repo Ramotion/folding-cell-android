@@ -4,6 +4,7 @@
 [![Twitter](https://img.shields.io/badge/Twitter-@Ramotion-blue.svg?style=flat)](http://twitter.com/Ramotion)
 
 ![Animation](folding_cell_preview.gif)
+The [Android mockup](https://store.ramotion.com/product/htc-one-a9-mockups?utm_source=gthb&utm_medium=special&utm_campaign=folding-cell-android) available [here](https://store.ramotion.com/product/htc-one-a9-mockups?utm_source=gthb&utm_medium=special&utm_campaign=folding-cell-android).
 
 ## Requirements
 ​
