@@ -16,15 +16,15 @@ The [Android mockup](https://store.ramotion.com/product/htc-one-a9-mockups?utm_s
 Just download the package from [here](http://central.maven.org/maven2/com/ramotion/foldingcell/folding-cell/1.0.0/folding-cell-1.0.0.aar) and add it to your project classpath, or just use the maven repo:
 ​
 Gradle:
-```
+```groovy
 'com.ramotion.foldingcell:folding-cell:1.0.0'
 ```
 SBT:
-```
+```scala
 libraryDependencies += "com.ramotion.foldingcell" % "folding-cell" % "1.0.0"
 ```
 Maven:
-```
+```xml
 <dependency>
 	<groupId>com.ramotion.foldingcell</groupId>
 	<artifactId>folding-cell</artifactId>
@@ -36,7 +36,7 @@ Maven:
 ​
 1. Add `com.ramotion.foldingcell.FoldingCell` to your layout
 ​
-```
+```xml
 ...
 <com.ramotion.foldingcell.FoldingCell    
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -50,7 +50,7 @@ Maven:
 ​
 2. Add exactly **two** child elements to your cell. The first child (*content view*) always represents the unfolded state layout and the second child (*title view*) represents folded state layout. Of course, those layouts can contain any number of child elements and they can be any complexity, but to work correctly, there are some limitations: **content view height** must be at least **2x times** greater than **title view height**, and the height of each of those layouts must be set to `android:layout_height="wrap_content"`. If you want to set exact height in `dp` , you can set height for child elements in your own layout inside *content view* or *title view*. Also, you need to hide your *content view* layout using `android:visibility="gone"`.
 ​
-```
+```xml
 ...
 <com.ramotion.foldingcell.FoldingCell
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -85,14 +85,14 @@ Maven:
 ​
 3. Almost done! Two steps remain! For correct animation, you need to set up two properties on the root element(s) of your Folding Cell:
 ​
-```
+```xml
 android:clipChildren="false"
 android:clipToPadding="false"
 ```
 ​
 4. Final step! Add onClickListener to your Folding Cell in `MainActivity.java` to toggle animation:
 ​
-```
+```java
 @Override
 protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -113,13 +113,13 @@ protected void onCreate(Bundle savedInstanceState) {
 ​
 5. Extra step - customizing cell settings. For now, there are three main parameters - animation time, back side color and additional flips count. If first two do not cause questions, the third requires an some explanation. It is count of flips to be executed after first(main) flip. Default value is `0`(auto choose). There are two ways to change cell settings:
 From xml layout file with `res-auto` namespace `xmlns:folding-cell="http://schemas.android.com/apk/res-auto"`:
-```
+```xml
 folding-cell:animationDuration="1000"
 folding-cell:backSideColor="@color/bgBackSideColor"
 folding-cell:additionalFlipsCount="2"
 ```
 Or from code:
-```
+```java
 // get our folding cell
 final FoldingCell fc = (FoldingCell) findViewById(R.id.folding_cell);
 // set custom parameters
