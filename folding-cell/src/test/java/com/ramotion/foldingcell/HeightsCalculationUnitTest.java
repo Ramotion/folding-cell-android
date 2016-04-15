@@ -16,8 +16,12 @@ import static org.junit.Assert.assertEquals;
 public class HeightsCalculationUnitTest {
 
     @Mock
-    Context mMockContext;
+    private Context mMockContext;
 
+    /**
+     * Default dividing logic - content view splits to several parts with heights equal to title view
+     * plus optional last small part that cover remained height
+     */
     @Test
     public void defaultLogic() throws Exception {
         FoldingCell fc = new FoldingCell(mMockContext);
@@ -38,6 +42,11 @@ public class HeightsCalculationUnitTest {
         fc.calculateHeightsForAnimationParts(50, 80, 0);
     }
 
+    /**
+     * Extended logic - when additional flips count is provided - content view splits onto two "main" parts
+     * with same size as title view for first big flip. Remained space splits to number of parts provided by developer,
+     * but height of each part must be equal or smaller than title view height
+     */
     @Test
     public void extendedLogic() throws Exception {
         FoldingCell fc = new FoldingCell(mMockContext);
