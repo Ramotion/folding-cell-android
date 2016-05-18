@@ -1,5 +1,5 @@
 # FoldingCell for Android
-[![Circle CI](https://circleci.com/gh/Ramotion/folding-cell-android.svg?style=svg)](https://circleci.com/gh/Ramotion/folding-cell-android) 
+[![Circle CI](https://circleci.com/gh/Ramotion/folding-cell-android.svg?style=svg)](https://circleci.com/gh/Ramotion/folding-cell-android)
 [![Codacy Badge](https://api.codacy.com/project/badge/grade/339ae33122964163a55a5e8e90619cbc)](https://www.codacy.com/app/juri-v/folding-cell-android)
 [![Twitter](https://img.shields.io/badge/Twitter-@Ramotion-blue.svg?style=flat)](http://twitter.com/Ramotion)
 
@@ -17,18 +17,18 @@ Just download the package from [here](http://central.maven.org/maven2/com/ramoti
 ​
 Gradle:
 ```groovy
-'com.ramotion.foldingcell:folding-cell:1.0.0'
+'com.ramotion.foldingcell:folding-cell:1.0.1'
 ```
 SBT:
 ```scala
-libraryDependencies += "com.ramotion.foldingcell" % "folding-cell" % "1.0.0"
+libraryDependencies += "com.ramotion.foldingcell" % "folding-cell" % "1.0.1"
 ```
 Maven:
 ```xml
 <dependency>
 	<groupId>com.ramotion.foldingcell</groupId>
 	<artifactId>folding-cell</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 </dependency>
 ```
 ​
@@ -38,7 +38,7 @@ Maven:
 ​
 ```xml
 ...
-<com.ramotion.foldingcell.FoldingCell    
+<com.ramotion.foldingcell.FoldingCell
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/folding_cell"
     android:layout_width="match_parent"
