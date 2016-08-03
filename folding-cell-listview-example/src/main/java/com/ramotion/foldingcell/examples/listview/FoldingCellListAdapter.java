@@ -20,6 +20,8 @@ import java.util.List;
 public class FoldingCellListAdapter extends ArrayAdapter<Item> {
 
     private HashSet<Integer> unfoldedIndexes = new HashSet<>();
+    private View.OnClickListener defaultRequestBtnClickListener;
+
 
     public FoldingCellListAdapter(Context context, List<Item> objects) {
         super(context, 0, objects);
@@ -44,6 +46,7 @@ public class FoldingCellListAdapter extends ArrayAdapter<Item> {
             viewHolder.toAddress = (TextView) cell.findViewById(R.id.title_to_address);
             viewHolder.requestsCount = (TextView) cell.findViewById(R.id.title_requests_count);
             viewHolder.pledgePrice = (TextView) cell.findViewById(R.id.title_pledge);
+            viewHolder.contentRequestBtn = (TextView) cell.findViewById(R.id.content_request_btn);
             cell.setTag(viewHolder);
         } else {
             // for existing cell set valid valid state(without animation)
@@ -64,6 +67,15 @@ public class FoldingCellListAdapter extends ArrayAdapter<Item> {
         viewHolder.requestsCount.setText(String.valueOf(item.getRequestsCount()));
         viewHolder.pledgePrice.setText(item.getPledgePrice());
 
+        // set custom btn handler for list item from that item
+        if (item.getRequestBtnClickListener() != null) {
+            viewHolder.contentRequestBtn.setOnClickListener(item.getRequestBtnClickListener());
+        } else {
+            // (optionally) add "default" handler if no handler found in item
+            viewHolder.contentRequestBtn.setOnClickListener(defaultRequestBtnClickListener);
+        }
+
+
         return cell;
     }
 
@@ -83,9 +95,18 @@ public class FoldingCellListAdapter extends ArrayAdapter<Item> {
         unfoldedIndexes.add(position);
     }
 
+    public View.OnClickListener getDefaultRequestBtnClickListener() {
+        return defaultRequestBtnClickListener;
+    }
+
+    public void setDefaultRequestBtnClickListener(View.OnClickListener defaultRequestBtnClickListener) {
+        this.defaultRequestBtnClickListener = defaultRequestBtnClickListener;
+    }
+
     // View lookup cache
     private static class ViewHolder {
         TextView price;
+        TextView contentRequestBtn;
         TextView pledgePrice;
         TextView fromAddress;
         TextView toAddress;
