@@ -1,5 +1,7 @@
 package com.ramotion.foldingcell.examples.listview;
 
+import android.view.View;
+
 import java.util.ArrayList;
 
 /**
@@ -14,6 +16,8 @@ public class Item {
     private int requestsCount;
     private String date;
     private String time;
+
+    private View.OnClickListener requestBtnClickListener;
 
     public Item() {
     }
@@ -84,6 +88,14 @@ public class Item {
         this.time = time;
     }
 
+    public View.OnClickListener getRequestBtnClickListener() {
+        return requestBtnClickListener;
+    }
+
+    public void setRequestBtnClickListener(View.OnClickListener requestBtnClickListener) {
+        this.requestBtnClickListener = requestBtnClickListener;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -125,7 +137,7 @@ public class Item {
         items.add(new Item("$23", "$116", "W 36th St, NY, 10015", "W 114th St, NY, 10037", 10, "TODAY", "11:10 AM"));
         items.add(new Item("$63", "$350", "W 36th St, NY, 10029", "56th Ave, NY, 10041", 0, "TODAY", "07:11 PM"));
         items.add(new Item("$19", "$150", "12th Ave, NY, 10012", "W 57th St, NY, 10048", 8, "TODAY", "4:15 AM"));
-        items.add(new Item("$5", "$300", "56th Ave, NY, 10041","W 36th St, NY, 10029", 0, "TODAY", "06:15 PM"));
+        items.add(new Item("$5", "$300", "56th Ave, NY, 10041", "W 36th St, NY, 10029", 0, "TODAY", "06:15 PM"));
         return items;
 
     }

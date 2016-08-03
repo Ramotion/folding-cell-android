@@ -23,15 +23,31 @@
             android:layout_height="wrap_content"
             android:background="@android:color/holo_green_dark"
             android:visibility="gone">
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="250dp" />
+                android:layout_height="250dp"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/toast_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:text="TOAST" />
+
+                <Button
+                    android:id="@+id/fold_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:text="FOLD BTN" />
+
+            </LinearLayout>
         </FrameLayout>
 
         <FrameLayout
             android:id="@+id/cell_title_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
