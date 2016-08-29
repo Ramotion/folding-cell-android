@@ -316,9 +316,7 @@ public class FoldingCell extends RelativeLayout {
      * @return bitmap from specified view
      */
     protected Bitmap getBitmapFromView(View view, int parentWidth) {
-        int specW = View.MeasureSpec.makeMeasureSpec(parentWidth, View.MeasureSpec.EXACTLY);
-        int specH = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
-        view.measure(specW, specH);
+        measureView(view, parentWidth);
         view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
         Bitmap b = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas c = new Canvas(b);
@@ -517,6 +515,7 @@ public class FoldingCell extends RelativeLayout {
         if (titleView == null) return;
         contentView.setVisibility(GONE);
         titleView.setVisibility(VISIBLE);
+        measureView(titleView,this.getMeasuredWidth());
         FoldingCell.this.mUnfolded = false;
         ViewGroup.LayoutParams layoutParams = this.getLayoutParams();
         layoutParams.height = titleView.getHeight();
@@ -537,10 +536,16 @@ public class FoldingCell extends RelativeLayout {
         contentView.setVisibility(VISIBLE);
         titleView.setVisibility(GONE);
         FoldingCell.this.mUnfolded = true;
+        measureView(contentView,this.getMeasuredWidth());
         ViewGroup.LayoutParams layoutParams = this.getLayoutParams();
         layoutParams.height = contentView.getHeight();
         this.setLayoutParams(layoutParams);
         this.requestLayout();
     }
 
+    private void measureView(View view, int parentWidth) {
+        int specW = MeasureSpec.makeMeasureSpec(parentWidth, MeasureSpec.EXACTLY);
+        int specH = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED);
+        view.measure(specW, specH);
+    }
 }
