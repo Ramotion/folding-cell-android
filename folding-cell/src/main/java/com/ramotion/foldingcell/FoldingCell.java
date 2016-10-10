@@ -79,6 +79,10 @@ public class FoldingCell extends RelativeLayout {
         this.mAdditionalFlipsCount = additionalFlipsCount;
     }
 
+    public boolean isUnfolded() {
+        return mUnfolded;
+    }
+
     /**
      * Unfold cell with (or without) animation
      *
