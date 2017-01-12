@@ -14,7 +14,7 @@ The [Android mockup](https://store.ramotion.com/product/htc-one-a9-mockups?utm_s
 
 ## Requirements
 ​
-- Android 4.2.2 Jelly Bean (API lvl 17) or greater
+- Android 4.0 IceCreamSandwich (API lvl 14) or greater
 - Your favorite IDE
 
 ## Installation
