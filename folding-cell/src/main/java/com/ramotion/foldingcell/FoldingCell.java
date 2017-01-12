@@ -40,11 +40,13 @@ public class FoldingCell extends RelativeLayout {
     private final int DEF_ANIMATION_DURATION = 1000;
     private final int DEF_BACK_SIDE_COLOR = Color.GRAY;
     private final int DEF_ADDITIONAL_FLIPS = 0;
+    private final int DEF_CAMERA_HEIGHT = 30;
 
     // current settings
     private int mAnimationDuration = DEF_ANIMATION_DURATION;
     private int mBackSideColor = DEF_BACK_SIDE_COLOR;
     private int mAdditionalFlipsCount = DEF_ADDITIONAL_FLIPS;
+    private int mCameraHeight = DEF_CAMERA_HEIGHT;
 
     public FoldingCell(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -77,6 +79,20 @@ public class FoldingCell extends RelativeLayout {
         this.mAnimationDuration = animationDuration;
         this.mBackSideColor = backSideColor;
         this.mAdditionalFlipsCount = additionalFlipsCount;
+    }
+
+    /**
+     * Initializes folding cell programmatically with custom settings
+     *
+     * @param animationDuration    animation duration, default is 1000
+     * @param backSideColor        color of back side, default is android.graphics.Color.GREY (0xFF888888)
+     * @param additionalFlipsCount count of additional flips (after first one), set 0 for auto
+     */
+    public void initialize(int cameraHeight, int animationDuration, int backSideColor, int additionalFlipsCount) {
+        this.mAnimationDuration = animationDuration;
+        this.mBackSideColor = backSideColor;
+        this.mAdditionalFlipsCount = additionalFlipsCount;
+        this.mCameraHeight = cameraHeight;
     }
 
     public boolean isUnfolded() {
@@ -357,10 +373,14 @@ public class FoldingCell extends RelativeLayout {
 
         ArrayList<Animation> heightAnimations = new ArrayList<>();
         int fromHeight = viewHeights.get(0);
+        int delay = 0;
+        int animationDuration = partAnimationDuration - delay;
         for (int i = 1; i < viewHeights.size(); i++) {
             int toHeight = fromHeight + viewHeights.get(i);
-            heightAnimations.add(new HeightAnimation(this, fromHeight, toHeight, partAnimationDuration)
-                    .withInterpolator(new DecelerateInterpolator()));
+            HeightAnimation heightAnimation = new HeightAnimation(this, fromHeight, toHeight, animationDuration)
+                    .withInterpolator(new DecelerateInterpolator());
+            heightAnimation.setStartOffset(delay);
+            heightAnimations.add(heightAnimation);
             fromHeight = toHeight;
         }
         createAnimationChain(heightAnimations, this);
@@ -432,7 +452,7 @@ public class FoldingCell extends RelativeLayout {
             cell.setVisibility(VISIBLE);
             // not FIRST(BOTTOM) element - animate front view
             if (i != 0) {
-                FoldAnimation foldAnimation = new FoldAnimation(FoldAnimation.FoldAnimationMode.UNFOLD_UP, part90degreeAnimationDuration)
+                FoldAnimation foldAnimation = new FoldAnimation(FoldAnimation.FoldAnimationMode.UNFOLD_UP, mCameraHeight, part90degreeAnimationDuration)
                         .withStartOffset(nextDelay)
                         .withInterpolator(new DecelerateInterpolator());
                 // if last(top) element - add end listener
@@ -444,7 +464,7 @@ public class FoldingCell extends RelativeLayout {
             }
             // if not last(top) element - animate whole view
             if (i != foldingCellElements.size() - 1) {
-                cell.startAnimation(new FoldAnimation(FoldAnimation.FoldAnimationMode.FOLD_UP, part90degreeAnimationDuration)
+                cell.startAnimation(new FoldAnimation(FoldAnimation.FoldAnimationMode.FOLD_UP, mCameraHeight, part90degreeAnimationDuration)
                         .withStartOffset(nextDelay)
                         .withInterpolator(new DecelerateInterpolator()));
                 nextDelay = nextDelay + part90degreeAnimationDuration;
@@ -469,7 +489,7 @@ public class FoldingCell extends RelativeLayout {
             foldingLayout.addView(cell);
             // if not first(top) element - animate whole view
             if (i != 0) {
-                FoldAnimation foldAnimation = new FoldAnimation(FoldAnimation.FoldAnimationMode.UNFOLD_DOWN, part90degreeAnimationDuration)
+                FoldAnimation foldAnimation = new FoldAnimation(FoldAnimation.FoldAnimationMode.UNFOLD_DOWN, mCameraHeight, part90degreeAnimationDuration)
                         .withStartOffset(nextDelay)
                         .withInterpolator(new DecelerateInterpolator());
 
@@ -484,7 +504,7 @@ public class FoldingCell extends RelativeLayout {
             }
             // not last(bottom) element - animate front view
             if (i != foldingCellElements.size() - 1) {
-                cell.animateFrontView(new FoldAnimation(FoldAnimation.FoldAnimationMode.FOLD_DOWN, part90degreeAnimationDuration)
+                cell.animateFrontView(new FoldAnimation(FoldAnimation.FoldAnimationMode.FOLD_DOWN, mCameraHeight, part90degreeAnimationDuration)
                         .withStartOffset(nextDelay)
                         .withInterpolator(new DecelerateInterpolator()));
                 nextDelay = nextDelay + part90degreeAnimationDuration;
@@ -504,6 +524,7 @@ public class FoldingCell extends RelativeLayout {
             this.mAnimationDuration = array.getInt(R.styleable.FoldingCell_animationDuration, DEF_ANIMATION_DURATION);
             this.mBackSideColor = array.getColor(R.styleable.FoldingCell_backSideColor, DEF_BACK_SIDE_COLOR);
             this.mAdditionalFlipsCount = array.getInt(R.styleable.FoldingCell_additionalFlipsCount, DEF_ADDITIONAL_FLIPS);
+            this.mCameraHeight = array.getInt(R.styleable.FoldingCell_cameraHeight, DEF_CAMERA_HEIGHT);
         } finally {
             array.recycle();
         }
