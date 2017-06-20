@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:folding-cell="http://schemas.android.com/apk/res-auto"
     android:clipChildren="false"
     android:clipToPadding="false"
     android:orientation="vertical"
@@ -13,7 +12,27 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity">
 
-    <com.ramotion.foldingcell.FoldingCell xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/toggle_instant_btn"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="Toggle instantly" />
+
+        <Button
+            android:id="@+id/toggle_btn"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="Toggle with animation" />
+
+    </LinearLayout>
+
+    <com.ramotion.foldingcell.FoldingCell
         android:id="@+id/folding_cell"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -22,26 +41,15 @@
             android:id="@+id/cell_content_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/holo_green_dark"
             android:visibility="gone">
-            <LinearLayout
+
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
-                android:orientation="vertical">
+                android:background="@android:color/holo_green_dark"
+                android:gravity="center"
+                android:text="Content view" />
 
-                <Button
-                    android:id="@+id/toast_btn"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:text="TOAST" />
-
-                <Button
-                    android:id="@+id/fold_btn"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:text="FOLD BTN" />
-
-            </LinearLayout>
         </FrameLayout>
 
         <FrameLayout
@@ -52,7 +60,10 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
-                android:background="@android:color/holo_blue_dark" />
+                android:background="@android:color/holo_blue_dark"
+                android:gravity="center"
+                android:text="Title view" />
+
         </FrameLayout>
 
     </com.ramotion.foldingcell.FoldingCell>
