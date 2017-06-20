@@ -5,13 +5,13 @@ version = '1.0.0'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion '23.0.2'
+    buildToolsVersion '23.0.3'
     defaultConfig {
         applicationId 'com.ramotion.foldingcell.examples.listview'
         minSdkVersion 14
         targetSdkVersion 23
         versionCode 1
-        versionName "1.0.0"
+        versionName version
     }
     buildTypes {
         release {

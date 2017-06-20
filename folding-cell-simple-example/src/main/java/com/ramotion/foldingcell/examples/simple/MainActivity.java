@@ -18,29 +18,21 @@ public class MainActivity extends AppCompatActivity {
         // get our folding cell
         final FoldingCell fc = (FoldingCell) findViewById(R.id.folding_cell);
 
-        // attach click listener to folding cell
-        fc.setOnClickListener(new View.OnClickListener() {
+        // attach click listener to fold btn
+        final Button toggleBtn = (Button) findViewById(R.id.toggle_btn);
+        toggleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 fc.toggle(false);
             }
         });
 
-        // attach click listener to fold btn
-        final Button foldBtn = (Button) findViewById(R.id.fold_btn);
-        foldBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fc.fold(false);
-            }
-        });
-
         // attach click listener to toast btn
-        final Button toastBtn = (Button) findViewById(R.id.toast_btn);
-        toastBtn.setOnClickListener(new View.OnClickListener() {
+        final Button toggleInstantlyBtn = (Button) findViewById(R.id.toggle_instant_btn);
+        toggleInstantlyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Victrix superbus cursus est.", Toast.LENGTH_SHORT).show();
+                fc.toggle(true);
             }
         });
 
