@@ -21,22 +21,22 @@ The [Android mockup](https://store.ramotion.com?utm_source=gthb&utm_medium=speci
 
 ## Installation
 ​
-Just download the package from [here](http://central.maven.org/maven2/com/ramotion/foldingcell/folding-cell/1.2.0/folding-cell-1.2.0.aar) and add it to your project classpath, or just use the maven repo:
+Just download the package from [here](http://central.maven.org/maven2/com/ramotion/foldingcell/folding-cell/1.2.1/folding-cell-1.2.1.aar) and add it to your project classpath, or just use the maven repo:
 
 Gradle:
 ```groovy
-'com.ramotion.foldingcell:folding-cell:1.2.0'
+'com.ramotion.foldingcell:folding-cell:1.2.1'
 ```
 SBT:
 ```scala
-libraryDependencies += "com.ramotion.foldingcell" % "folding-cell" % "1.2.0"
+libraryDependencies += "com.ramotion.foldingcell" % "folding-cell" % "1.2.1"
 ```
 Maven:
 ```xml
 <dependency>
 	<groupId>com.ramotion.foldingcell</groupId>
 	<artifactId>folding-cell</artifactId>
-	<version>1.2.0</version>
+	<version>1.2.1</version>
 </dependency>
 ```
 ​

@@ -4,7 +4,7 @@ apply plugin: 'com.bmuschko.nexus'
 apply plugin: "jacoco"
 
 group = 'com.ramotion.foldingcell'
-version = '1.2.0'
+version = '1.2.1'
 
 android {
     compileSdkVersion 23
@@ -12,7 +12,7 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 23
-        versionCode 4
+        versionCode 5
         versionName version
     }
     buildTypes {
