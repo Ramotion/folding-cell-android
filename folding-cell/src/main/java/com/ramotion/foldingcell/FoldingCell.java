@@ -40,11 +40,13 @@ public class FoldingCell extends RelativeLayout {
     private final int DEF_ANIMATION_DURATION = 1000;
     private final int DEF_BACK_SIDE_COLOR = Color.GRAY;
     private final int DEF_ADDITIONAL_FLIPS = 0;
+    private final int DEF_CAMERA_HEIGHT = 30;
 
     // current settings
     private int mAnimationDuration = DEF_ANIMATION_DURATION;
     private int mBackSideColor = DEF_BACK_SIDE_COLOR;
     private int mAdditionalFlipsCount = DEF_ADDITIONAL_FLIPS;
+    private int mCameraHeight = DEF_CAMERA_HEIGHT;
 
     public FoldingCell(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -80,6 +82,24 @@ public class FoldingCell extends RelativeLayout {
     }
 
     /**
+     * Initializes folding cell programmatically with custom settings
+     *
+     * @param animationDuration    animation duration, default is 1000
+     * @param backSideColor        color of back side, default is android.graphics.Color.GREY (0xFF888888)
+     * @param additionalFlipsCount count of additional flips (after first one), set 0 for auto
+     */
+    public void initialize(int cameraHeight, int animationDuration, int backSideColor, int additionalFlipsCount) {
+        this.mAnimationDuration = animationDuration;
+        this.mBackSideColor = backSideColor;
+        this.mAdditionalFlipsCount = additionalFlipsCount;
+        this.mCameraHeight = cameraHeight;
+    }
+
+    public boolean isUnfolded() {
+        return mUnfolded;
+    }
+
+    /**
      * Unfold cell with (or without) animation
      *
      * @param skipAnimation if true - change state of cell instantly without animation
@@ -87,50 +107,50 @@ public class FoldingCell extends RelativeLayout {
     public void unfold(boolean skipAnimation) {
         if (mUnfolded || mAnimationInProgress) return;
 
-        if (skipAnimation) {
-            setStateToUnfolded();
-            return;
-        }
-
         // get main content parts
         final View contentView = getChildAt(0);
         if (contentView == null) return;
         final View titleView = getChildAt(1);
         if (titleView == null) return;
 
-        // create layout container for animation elements
-        final LinearLayout foldingLayout = createAndPrepareFoldingContainer();
-        this.addView(foldingLayout);
-
         // hide title and content views
         titleView.setVisibility(GONE);
         contentView.setVisibility(GONE);
 
-        // take bitmaps from title and content views
-        Bitmap bitmapFromTitleView = getBitmapFromView(titleView, this.getMeasuredWidth());
-        Bitmap bitmapFromContentView = getBitmapFromView(contentView, this.getMeasuredWidth());
+        // Measure views and take a bitmaps to replace real views with images
+        Bitmap bitmapFromTitleView = measureViewAndGetBitmap(titleView, this.getMeasuredWidth());
+        Bitmap bitmapFromContentView = measureViewAndGetBitmap(contentView, this.getMeasuredWidth());
 
-        // calculate heights of animation parts
-        ArrayList<Integer> heights = calculateHeightsForAnimationParts(titleView.getHeight(), contentView.getHeight(), mAdditionalFlipsCount);
+        if (skipAnimation) {
+            contentView.setVisibility(VISIBLE);
+            FoldingCell.this.mUnfolded = true;
+            FoldingCell.this.mAnimationInProgress = false;
+            this.getLayoutParams().height = contentView.getHeight();
+        } else {
+            // create layout container for animation elements
+            final LinearLayout foldingLayout = createAndPrepareFoldingContainer();
+            this.addView(foldingLayout);
+            // calculate heights of animation parts
+            ArrayList<Integer> heights = calculateHeightsForAnimationParts(titleView.getHeight(), contentView.getHeight(), mAdditionalFlipsCount);
+            // create list with animation parts for animation
+            ArrayList<FoldingCellView> foldingCellElements = prepareViewsForAnimation(heights, bitmapFromTitleView, bitmapFromContentView);
+            // start unfold animation with end listener
+            int childCount = foldingCellElements.size();
+            int part90degreeAnimationDuration = mAnimationDuration / (childCount * 2);
+            startUnfoldAnimation(foldingCellElements, foldingLayout, part90degreeAnimationDuration, new AnimationEndListener() {
+                public void onAnimationEnd(Animation animation) {
+                    contentView.setVisibility(VISIBLE);
+                    foldingLayout.setVisibility(GONE);
+                    FoldingCell.this.removeView(foldingLayout);
+                    FoldingCell.this.mUnfolded = true;
+                    FoldingCell.this.mAnimationInProgress = false;
+                }
+            });
 
-        // create list with animation parts for animation
-        ArrayList<FoldingCellView> foldingCellElements = prepareViewsForAnimation(heights, bitmapFromTitleView, bitmapFromContentView);
+            startExpandHeightAnimation(heights, part90degreeAnimationDuration * 2);
+            this.mAnimationInProgress = true;
+        }
 
-        // start fold animation with end listener
-        int childCount = foldingCellElements.size();
-        int part90degreeAnimationDuration = mAnimationDuration / (childCount * 2);
-        startUnfoldAnimation(foldingCellElements, foldingLayout, part90degreeAnimationDuration, new AnimationEndListener() {
-            public void onAnimationEnd(Animation animation) {
-                contentView.setVisibility(VISIBLE);
-                foldingLayout.setVisibility(GONE);
-                FoldingCell.this.removeView(foldingLayout);
-                FoldingCell.this.mUnfolded = true;
-                FoldingCell.this.mAnimationInProgress = false;
-            }
-        });
-
-        startExpandHeightAnimation(heights, part90degreeAnimationDuration * 2);
-        this.mAnimationInProgress = true;
     }
 
     /**
@@ -140,10 +160,6 @@ public class FoldingCell extends RelativeLayout {
      */
     public void fold(boolean skipAnimation) {
         if (!mUnfolded || mAnimationInProgress) return;
-        if (skipAnimation) {
-            setStateToFolded();
-            return;
-        }
 
         // get basic views
         final View contentView = getChildAt(0);
@@ -151,44 +167,50 @@ public class FoldingCell extends RelativeLayout {
         final View titleView = getChildAt(1);
         if (titleView == null) return;
 
-        // create empty layout for folding animation
-        final LinearLayout foldingLayout = createAndPrepareFoldingContainer();
-        // add that layout to structure
-        this.addView(foldingLayout);
-
-        // make bitmaps from title and content views
-        Bitmap bitmapFromTitleView = getBitmapFromView(titleView, this.getMeasuredWidth());
-        Bitmap bitmapFromContentView = getBitmapFromView(contentView, this.getMeasuredWidth());
-
         // hide title and content views
         titleView.setVisibility(GONE);
         contentView.setVisibility(GONE);
 
-        // calculate heights of animation parts
-        ArrayList<Integer> heights = calculateHeightsForAnimationParts(titleView.getHeight(), contentView.getHeight(), mAdditionalFlipsCount);
+        // make bitmaps from title and content views
+        Bitmap bitmapFromTitleView = measureViewAndGetBitmap(titleView, this.getMeasuredWidth());
+        Bitmap bitmapFromContentView = measureViewAndGetBitmap(contentView, this.getMeasuredWidth());
 
-        // create list with animation parts for animation
-        ArrayList<FoldingCellView> foldingCellElements = prepareViewsForAnimation(heights, bitmapFromTitleView, bitmapFromContentView);
+        if (skipAnimation) {
+            contentView.setVisibility(GONE);
+            titleView.setVisibility(VISIBLE);
+            FoldingCell.this.mAnimationInProgress = false;
+            FoldingCell.this.mUnfolded = false;
+            this.getLayoutParams().height = titleView.getHeight();
+        } else {
 
-        int childCount = foldingCellElements.size();
-        int part90degreeAnimationDuration = mAnimationDuration / (childCount * 2);
+            // create empty layout for folding animation
+            final LinearLayout foldingLayout = createAndPrepareFoldingContainer();
+            // add that layout to structure
+            this.addView(foldingLayout);
 
-        // start fold animation with end listener
-        startFoldAnimation(foldingCellElements, foldingLayout, part90degreeAnimationDuration, new AnimationEndListener() {
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                contentView.setVisibility(GONE);
-                titleView.setVisibility(VISIBLE);
-                foldingLayout.setVisibility(GONE);
-                FoldingCell.this.removeView(foldingLayout);
-                FoldingCell.this.mAnimationInProgress = false;
-                FoldingCell.this.mUnfolded = false;
-            }
-        });
+            // calculate heights of animation parts
+            ArrayList<Integer> heights = calculateHeightsForAnimationParts(titleView.getHeight(), contentView.getHeight(), mAdditionalFlipsCount);
+            // create list with animation parts for animation
+            ArrayList<FoldingCellView> foldingCellElements = prepareViewsForAnimation(heights, bitmapFromTitleView, bitmapFromContentView);
+            int childCount = foldingCellElements.size();
+            int part90degreeAnimationDuration = mAnimationDuration / (childCount * 2);
+            // start fold animation with end listener
+            startFoldAnimation(foldingCellElements, foldingLayout, part90degreeAnimationDuration, new AnimationEndListener() {
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    contentView.setVisibility(GONE);
+                    titleView.setVisibility(VISIBLE);
+                    foldingLayout.setVisibility(GONE);
+                    FoldingCell.this.removeView(foldingLayout);
+                    FoldingCell.this.mAnimationInProgress = false;
+                    FoldingCell.this.mUnfolded = false;
+                }
+            });
+            startCollapseHeightAnimation(heights, part90degreeAnimationDuration * 2);
+            this.mAnimationInProgress = true;
+        }
 
-        startCollapseHeightAnimation(heights, part90degreeAnimationDuration * 2);
 
-        this.mAnimationInProgress = true;
     }
 
 
@@ -200,6 +222,7 @@ public class FoldingCell extends RelativeLayout {
             this.fold(skipAnimation);
         } else {
             this.unfold(skipAnimation);
+            this.requestLayout();
         }
     }
 
@@ -315,7 +338,7 @@ public class FoldingCell extends RelativeLayout {
      * @param parentWidth result bitmap width
      * @return bitmap from specified view
      */
-    protected Bitmap getBitmapFromView(View view, int parentWidth) {
+    protected Bitmap measureViewAndGetBitmap(View view, int parentWidth) {
         int specW = View.MeasureSpec.makeMeasureSpec(parentWidth, View.MeasureSpec.EXACTLY);
         int specH = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
         view.measure(specW, specH);
@@ -353,10 +376,14 @@ public class FoldingCell extends RelativeLayout {
 
         ArrayList<Animation> heightAnimations = new ArrayList<>();
         int fromHeight = viewHeights.get(0);
+        int delay = 0;
+        int animationDuration = partAnimationDuration - delay;
         for (int i = 1; i < viewHeights.size(); i++) {
             int toHeight = fromHeight + viewHeights.get(i);
-            heightAnimations.add(new HeightAnimation(this, fromHeight, toHeight, partAnimationDuration)
-                    .withInterpolator(new DecelerateInterpolator()));
+            HeightAnimation heightAnimation = new HeightAnimation(this, fromHeight, toHeight, animationDuration)
+                    .withInterpolator(new DecelerateInterpolator());
+            heightAnimation.setStartOffset(delay);
+            heightAnimations.add(heightAnimation);
             fromHeight = toHeight;
         }
         createAnimationChain(heightAnimations, this);
@@ -428,7 +455,7 @@ public class FoldingCell extends RelativeLayout {
             cell.setVisibility(VISIBLE);
             // not FIRST(BOTTOM) element - animate front view
             if (i != 0) {
-                FoldAnimation foldAnimation = new FoldAnimation(FoldAnimation.FoldAnimationMode.UNFOLD_UP, part90degreeAnimationDuration)
+                FoldAnimation foldAnimation = new FoldAnimation(FoldAnimation.FoldAnimationMode.UNFOLD_UP, mCameraHeight, part90degreeAnimationDuration)
                         .withStartOffset(nextDelay)
                         .withInterpolator(new DecelerateInterpolator());
                 // if last(top) element - add end listener
@@ -440,7 +467,7 @@ public class FoldingCell extends RelativeLayout {
             }
             // if not last(top) element - animate whole view
             if (i != foldingCellElements.size() - 1) {
-                cell.startAnimation(new FoldAnimation(FoldAnimation.FoldAnimationMode.FOLD_UP, part90degreeAnimationDuration)
+                cell.startAnimation(new FoldAnimation(FoldAnimation.FoldAnimationMode.FOLD_UP, mCameraHeight, part90degreeAnimationDuration)
                         .withStartOffset(nextDelay)
                         .withInterpolator(new DecelerateInterpolator()));
                 nextDelay = nextDelay + part90degreeAnimationDuration;
@@ -465,7 +492,7 @@ public class FoldingCell extends RelativeLayout {
             foldingLayout.addView(cell);
             // if not first(top) element - animate whole view
             if (i != 0) {
-                FoldAnimation foldAnimation = new FoldAnimation(FoldAnimation.FoldAnimationMode.UNFOLD_DOWN, part90degreeAnimationDuration)
+                FoldAnimation foldAnimation = new FoldAnimation(FoldAnimation.FoldAnimationMode.UNFOLD_DOWN, mCameraHeight, part90degreeAnimationDuration)
                         .withStartOffset(nextDelay)
                         .withInterpolator(new DecelerateInterpolator());
 
@@ -480,7 +507,7 @@ public class FoldingCell extends RelativeLayout {
             }
             // not last(bottom) element - animate front view
             if (i != foldingCellElements.size() - 1) {
-                cell.animateFrontView(new FoldAnimation(FoldAnimation.FoldAnimationMode.FOLD_DOWN, part90degreeAnimationDuration)
+                cell.animateFrontView(new FoldAnimation(FoldAnimation.FoldAnimationMode.FOLD_DOWN, mCameraHeight, part90degreeAnimationDuration)
                         .withStartOffset(nextDelay)
                         .withInterpolator(new DecelerateInterpolator()));
                 nextDelay = nextDelay + part90degreeAnimationDuration;
@@ -500,6 +527,7 @@ public class FoldingCell extends RelativeLayout {
             this.mAnimationDuration = array.getInt(R.styleable.FoldingCell_animationDuration, DEF_ANIMATION_DURATION);
             this.mBackSideColor = array.getColor(R.styleable.FoldingCell_backSideColor, DEF_BACK_SIDE_COLOR);
             this.mAdditionalFlipsCount = array.getInt(R.styleable.FoldingCell_additionalFlipsCount, DEF_ADDITIONAL_FLIPS);
+            this.mCameraHeight = array.getInt(R.styleable.FoldingCell_cameraHeight, DEF_CAMERA_HEIGHT);
         } finally {
             array.recycle();
         }
@@ -520,25 +548,6 @@ public class FoldingCell extends RelativeLayout {
         FoldingCell.this.mUnfolded = false;
         ViewGroup.LayoutParams layoutParams = this.getLayoutParams();
         layoutParams.height = titleView.getHeight();
-        this.setLayoutParams(layoutParams);
-        this.requestLayout();
-    }
-
-    /**
-     * Instantly change current state of cell to Unfolded without any animations
-     */
-    protected void setStateToUnfolded() {
-        if (this.mAnimationInProgress || this.mUnfolded) return;
-        // get basic views
-        final View contentView = getChildAt(0);
-        if (contentView == null) return;
-        final View titleView = getChildAt(1);
-        if (titleView == null) return;
-        contentView.setVisibility(VISIBLE);
-        titleView.setVisibility(GONE);
-        FoldingCell.this.mUnfolded = true;
-        ViewGroup.LayoutParams layoutParams = this.getLayoutParams();
-        layoutParams.height = contentView.getHeight();
         this.setLayoutParams(layoutParams);
         this.requestLayout();
     }

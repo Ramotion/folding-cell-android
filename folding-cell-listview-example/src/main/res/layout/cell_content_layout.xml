@@ -115,9 +115,9 @@
 
     <!-- content body layout -->
     <LinearLayout
-        android:background="@color/bgContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/bgContent"
         android:orientation="vertical"
         android:paddingBottom="6dp"
         android:paddingLeft="20dp"
@@ -373,12 +373,13 @@
 
         <!-- request button -->
         <TextView
+            android:id="@+id/content_request_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:background="@color/btnRequest"
             android:padding="10dp"
             android:text="@string/request_btn_text"
-            android:background="@color/btnRequest"
             android:textAlignment="center"
             android:textColor="@color/mainTextColor"
             android:textSize="20sp" />
