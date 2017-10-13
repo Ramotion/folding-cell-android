@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
 
-group = 'com.ramotion.foldingcell.examples'
 version = '1.0.0'
 
 android {
