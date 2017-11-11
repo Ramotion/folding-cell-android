@@ -150,7 +150,7 @@ See [LICENSE](./LICENSE.md) for details.
 
 <br>
 
-# Get the Showroom App for mobile to give it a try
+# Get the Showroom App for Android to give it a try
 Try our UI components in our mobild app. Contact us if interested.
 
 <a href="https://play.google.com/store/apps/details?id=com.ramotion.showroom" >
