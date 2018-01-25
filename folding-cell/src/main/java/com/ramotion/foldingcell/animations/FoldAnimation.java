@@ -2,7 +2,6 @@ package com.ramotion.foldingcell.animations;
 
 import android.graphics.Camera;
 import android.graphics.Matrix;
-import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.Interpolator;
 import android.view.animation.Transformation;
