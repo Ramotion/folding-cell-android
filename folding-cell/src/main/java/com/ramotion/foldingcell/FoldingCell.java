@@ -26,8 +26,8 @@ import java.util.List;
 
 /**
  * Very first implementation of Folding Cell by Ramotion for Android platform
- * TODO: Update javadoc
  */
+@SuppressWarnings("unused")
 public class FoldingCell extends RelativeLayout {
 
     private final String TAG = "folding-cell";
@@ -48,22 +48,27 @@ public class FoldingCell extends RelativeLayout {
     private int mAdditionalFlipsCount = DEF_ADDITIONAL_FLIPS;
     private int mCameraHeight = DEF_CAMERA_HEIGHT;
 
+    public FoldingCell(Context context) {
+        this(context, null);
+    }
+
     public FoldingCell(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        initializeFromAttributes(context, attrs);
-        this.setClipChildren(false);
-        this.setClipToPadding(false);
+        this(context, attrs, 0);
     }
 
     public FoldingCell(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        initializeFromAttributes(context, attrs);
-        this.setClipChildren(false);
-        this.setClipToPadding(false);
-    }
 
-    public FoldingCell(Context context) {
-        super(context);
+        TypedArray array = context.getTheme().obtainStyledAttributes(attrs, R.styleable.FoldingCell, 0, 0);
+        try {
+            this.mAnimationDuration = array.getInt(R.styleable.FoldingCell_animationDuration, DEF_ANIMATION_DURATION);
+            this.mBackSideColor = array.getColor(R.styleable.FoldingCell_backSideColor, DEF_BACK_SIDE_COLOR);
+            this.mAdditionalFlipsCount = array.getInt(R.styleable.FoldingCell_additionalFlipsCount, DEF_ADDITIONAL_FLIPS);
+            this.mCameraHeight = array.getInt(R.styleable.FoldingCell_cameraHeight, DEF_CAMERA_HEIGHT);
+        } finally {
+            array.recycle();
+        }
+
         this.setClipChildren(false);
         this.setClipToPadding(false);
     }
@@ -262,7 +267,6 @@ public class FoldingCell extends RelativeLayout {
 
     /**
      * Calculate heights for animation parts with some logic
-     * TODO: Add detailed descriptions for logic
      *
      * @param titleViewHeight      height of title view
      * @param contentViewHeight    height of content view
@@ -512,24 +516,6 @@ public class FoldingCell extends RelativeLayout {
                         .withInterpolator(new DecelerateInterpolator()));
                 nextDelay = nextDelay + part90degreeAnimationDuration;
             }
-        }
-    }
-
-    /**
-     * Initialize folding cell with parameters from attribute
-     *
-     * @param context context
-     * @param attrs   attributes
-     */
-    protected void initializeFromAttributes(Context context, AttributeSet attrs) {
-        TypedArray array = context.getTheme().obtainStyledAttributes(attrs, R.styleable.FoldingCell, 0, 0);
-        try {
-            this.mAnimationDuration = array.getInt(R.styleable.FoldingCell_animationDuration, DEF_ANIMATION_DURATION);
-            this.mBackSideColor = array.getColor(R.styleable.FoldingCell_backSideColor, DEF_BACK_SIDE_COLOR);
-            this.mAdditionalFlipsCount = array.getInt(R.styleable.FoldingCell_additionalFlipsCount, DEF_ADDITIONAL_FLIPS);
-            this.mCameraHeight = array.getInt(R.styleable.FoldingCell_cameraHeight, DEF_CAMERA_HEIGHT);
-        } finally {
-            array.recycle();
         }
     }
 

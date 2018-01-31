@@ -9,6 +9,7 @@ import android.widget.RelativeLayout;
 /**
  * Basic element for folding animation.
  */
+@SuppressWarnings("unused")
 public class FoldingCellView extends RelativeLayout {
 
     private View mBackView;

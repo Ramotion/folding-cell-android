@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // get our list view
-        ListView theListView = (ListView) findViewById(R.id.mainListView);
+        ListView theListView = findViewById(R.id.mainListView);
 
         // prepare elements to display
         final ArrayList<Item> items = Item.getTestingList();

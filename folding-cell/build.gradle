@@ -1,17 +1,16 @@
 apply plugin: 'com.android.library'
 apply plugin: 'signing'
 apply plugin: 'com.bmuschko.nexus'
-apply plugin: "jacoco"
 
 group = 'com.ramotion.foldingcell'
 version = '1.2.1'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion '23.0.3'
+    compileSdkVersion 26
+    buildToolsVersion '26.0.3'
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 23
+        targetSdkVersion 26
         versionCode 5
         versionName version
     }
@@ -19,11 +18,6 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-        debug {
-            versionNameSuffix " Debug"
-            debuggable true
-            testCoverageEnabled = true
         }
     }
     compileOptions {
@@ -84,39 +78,4 @@ nexus {
     sign = true
     repositoryUrl = 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
     snapshotRepositoryUrl = 'https://oss.sonatype.org/content/repositories/snapshots/'
-}
-
-jacoco {
-    toolVersion = "0.7.6.201602180812"
-    reportsDir = file("$buildDir/reports/jacoco")
-
-}
-
-task jacocoReport(type: JacocoReport, dependsOn: 'testDebugUnitTest') {
-    group = 'Reporting'
-    description = 'Generate Jacoco coverage reports after running tests.'
-
-    reports {
-        xml.enabled = true
-        html.enabled = true
-    }
-
-    classDirectories = fileTree(
-            dir: 'build/intermediates/classes/debug',
-            excludes: [
-                    '**/R*.class',
-                    '**/BuildConfig*'
-            ]
-    )
-
-    sourceDirectories = files('src/main/java')
-    executionData = files('build/jacoco/testDebugUnitTest.exec')
-
-    doFirst {
-        files('build/intermediates/classes/debug').getFiles().each { file ->
-            if (file.name.contains('$$')) {
-                file.renameTo(file.path.replace('$$', '$'))
-            }
-        }
-    }
 }

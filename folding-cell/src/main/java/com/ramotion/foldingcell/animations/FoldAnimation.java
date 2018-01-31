@@ -9,6 +9,7 @@ import android.view.animation.Transformation;
 /**
  * Main piece of fold animation
  */
+@SuppressWarnings("unused")
 public class FoldAnimation extends Animation {
 
     public enum FoldAnimationMode {
