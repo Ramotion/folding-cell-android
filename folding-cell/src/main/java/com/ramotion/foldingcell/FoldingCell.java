@@ -59,14 +59,22 @@ public class FoldingCell extends RelativeLayout {
     public FoldingCell(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
-        TypedArray array = context.getTheme().obtainStyledAttributes(attrs, R.styleable.FoldingCell, 0, 0);
-        try {
-            this.mAnimationDuration = array.getInt(R.styleable.FoldingCell_animationDuration, DEF_ANIMATION_DURATION);
-            this.mBackSideColor = array.getColor(R.styleable.FoldingCell_backSideColor, DEF_BACK_SIDE_COLOR);
-            this.mAdditionalFlipsCount = array.getInt(R.styleable.FoldingCell_additionalFlipsCount, DEF_ADDITIONAL_FLIPS);
-            this.mCameraHeight = array.getInt(R.styleable.FoldingCell_cameraHeight, DEF_CAMERA_HEIGHT);
-        } finally {
-            array.recycle();
+        TypedArray styledAttrs = context.obtainStyledAttributes(attrs, R.styleable.FoldingCell);
+        if (styledAttrs!=null){
+            final int count = styledAttrs.getIndexCount();
+            for (int i = 0; i < count; ++i) {
+                int attr = styledAttrs.getIndex(i);
+                if (attr == R.styleable.FoldingCell_animationDuration) {
+                    this.mAnimationDuration = styledAttrs.getInt(R.styleable.FoldingCell_animationDuration, DEF_ANIMATION_DURATION);
+                } else if (attr == R.styleable.FoldingCell_backSideColor) {
+                    this.mBackSideColor = styledAttrs.getColor(R.styleable.FoldingCell_backSideColor, DEF_BACK_SIDE_COLOR);
+                } else if (attr == R.styleable.FoldingCell_additionalFlipsCount) {
+                    this.mAdditionalFlipsCount = styledAttrs.getInt(R.styleable.FoldingCell_additionalFlipsCount, DEF_ADDITIONAL_FLIPS);
+                } else if (attr == R.styleable.FoldingCell_cameraHeight) {
+                    this.mCameraHeight = styledAttrs.getInt(R.styleable.FoldingCell_cameraHeight, DEF_CAMERA_HEIGHT);
+                }
+            }
+            styledAttrs.recycle();
         }
 
         this.setClipChildren(false);
