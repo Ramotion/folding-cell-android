@@ -17,7 +17,6 @@ This project is maintained by Ramotion, Inc. We specialize in the designing and 
 <a href="https://ramotion.com/?utm_source=gthb&utm_medium=special&utm_campaign=folding-cell-android-contact-us/#Get_in_Touch"> 
 <img src="https://github.com/ramotion/gliding-collection/raw/master/contact_our_team@2x.png" width="187" height="34"></a> <br>
 
-
 ## Requirements
 ​
 - Android 4.0 IceCreamSandwich (API lvl 14) or greater
@@ -25,22 +24,22 @@ This project is maintained by Ramotion, Inc. We specialize in the designing and 
 
 ## Installation
 ​
-Just download the package from [here](http://central.maven.org/maven2/com/ramotion/foldingcell/folding-cell/1.2.1/folding-cell-1.2.1.aar) and add it to your project classpath, or just use the maven repo:
+Just download the package from [here](http://central.maven.org/maven2/com/ramotion/foldingcell/folding-cell/1.2.2/folding-cell-1.2.2.aar) and add it to your project classpath, or just use the maven repo:
 
 Gradle:
 ```groovy
-'com.ramotion.foldingcell:folding-cell:1.2.1'
+'com.ramotion.foldingcell:folding-cell:1.2.2'
 ```
 SBT:
 ```scala
-libraryDependencies += "com.ramotion.foldingcell" % "folding-cell" % "1.2.1"
+libraryDependencies += "com.ramotion.foldingcell" % "folding-cell" % "1.2.2"
 ```
 Maven:
 ```xml
 <dependency>
 	<groupId>com.ramotion.foldingcell</groupId>
 	<artifactId>folding-cell</artifactId>
-	<version>1.2.1</version>
+	<version>1.2.2</version>
 </dependency>
 ```
 ​
@@ -151,7 +150,7 @@ See [LICENSE](./LICENSE.md) for details.
 <br>
 
 # Get the Showroom App for Android to give it a try
-Try our UI components in our mobild app. Contact us if interested.
+Try our UI components in our mobile app. Contact us if interested.
 
 <a href="https://play.google.com/store/apps/details?id=com.ramotion.showroom" >
 <img src="https://raw.githubusercontent.com/Ramotion/react-native-circle-menu/master/google_play@2x.png" width="104" height="34"></a>

@@ -3,7 +3,7 @@ apply plugin: 'signing'
 apply plugin: 'com.bmuschko.nexus'
 
 group = 'com.ramotion.foldingcell'
-version = '1.2.1'
+version = '1.2.2'
 
 android {
     compileSdkVersion 26
@@ -11,7 +11,7 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 26
-        versionCode 5
+        versionCode 6
         versionName version
     }
     buildTypes {
