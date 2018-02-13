@@ -7,7 +7,8 @@ import android.view.animation.Animation;
 import android.widget.RelativeLayout;
 
 /**
- * Basic element for folding animation.
+ * Basic element for folding animation that represents one physic part of folding sheet with different views on front and back.
+ *
  */
 @SuppressWarnings("unused")
 public class FoldingCellView extends RelativeLayout {
@@ -17,8 +18,7 @@ public class FoldingCellView extends RelativeLayout {
 
     public FoldingCellView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        LayoutParams layoutParams =
-                new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+        LayoutParams layoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
         this.setLayoutParams(layoutParams);
         this.setClipToPadding(false);
         this.setClipChildren(false);
@@ -29,8 +29,7 @@ public class FoldingCellView extends RelativeLayout {
         this.mFrontView = frontView;
         this.mBackView = backView;
 
-        LayoutParams layoutParams =
-                new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+        LayoutParams layoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 
         this.setClipToPadding(false);
         this.setClipChildren(false);

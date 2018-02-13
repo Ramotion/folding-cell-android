@@ -27,10 +27,7 @@ import java.util.List;
 /**
  * Very first implementation of Folding Cell by Ramotion for Android platform
  */
-@SuppressWarnings("unused")
 public class FoldingCell extends RelativeLayout {
-
-    private final String TAG = "folding-cell";
 
     // state variables
     private boolean mUnfolded;
@@ -427,7 +424,7 @@ public class FoldingCell extends RelativeLayout {
     }
 
     /**
-     * Create "animation chain" for selected view from list of animations objects
+     * Create "animation chain" for selected view from list of animation objects
      *
      * @param animationList   collection with animations
      * @param animationObject view for animations
@@ -525,25 +522,6 @@ public class FoldingCell extends RelativeLayout {
                 nextDelay = nextDelay + part90degreeAnimationDuration;
             }
         }
-    }
-
-    /**
-     * Instantly change current state of cell to Folded without any animations
-     */
-    protected void setStateToFolded() {
-        if (this.mAnimationInProgress || !this.mUnfolded) return;
-        // get basic views
-        final View contentView = getChildAt(0);
-        if (contentView == null) return;
-        final View titleView = getChildAt(1);
-        if (titleView == null) return;
-        contentView.setVisibility(GONE);
-        titleView.setVisibility(VISIBLE);
-        FoldingCell.this.mUnfolded = false;
-        ViewGroup.LayoutParams layoutParams = this.getLayoutParams();
-        layoutParams.height = titleView.getHeight();
-        this.setLayoutParams(layoutParams);
-        this.requestLayout();
     }
 
 }

@@ -48,7 +48,6 @@ Maven:
 1. Add `com.ramotion.foldingcell.FoldingCell` to your layout
 ​
 ```xml
-...
 <com.ramotion.foldingcell.FoldingCell
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/folding_cell"
@@ -56,13 +55,11 @@ Maven:
     android:layout_height="wrap_content">
 ​
 </com.ramotion.foldingcell.FoldingCell>
-...
 ```
 ​
 2. Add exactly **two** child elements to your cell. The first child (*content view*) always represents the unfolded state layout and the second child (*title view*) represents folded state layout. Of course, those layouts can contain any number of child elements and they can be any complexity, but to work correctly, there are some limitations: **content view height** must be at least **2x times** greater than **title view height**, and the height of each of those layouts must be set to `android:layout_height="wrap_content"`. If you want to set exact height in `dp` , you can set height for child elements in your own layout inside *content view* or *title view*. Also, you need to hide your *content view* layout using `android:visibility="gone"`.
 ​
 ```xml
-...
 <com.ramotion.foldingcell.FoldingCell
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/folding_cell"
@@ -91,7 +88,6 @@ Maven:
         </FrameLayout>
 ​
 </com.ramotion.foldingcell.FoldingCell>
-...
 ```
 ​
 3. Almost done! Two steps remain! For correct animation, you need to set up two properties on the root element(s) of your Folding Cell:
