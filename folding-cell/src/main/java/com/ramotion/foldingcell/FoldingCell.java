@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -137,6 +138,7 @@ public class FoldingCell extends RelativeLayout {
             FoldingCell.this.mAnimationInProgress = false;
             this.getLayoutParams().height = contentView.getHeight();
         } else {
+            ViewCompat.setHasTransientState(FoldingCell.this, true);
             // create layout container for animation elements
             final LinearLayout foldingLayout = createAndPrepareFoldingContainer();
             this.addView(foldingLayout);
@@ -154,6 +156,7 @@ public class FoldingCell extends RelativeLayout {
                     FoldingCell.this.removeView(foldingLayout);
                     FoldingCell.this.mUnfolded = true;
                     FoldingCell.this.mAnimationInProgress = false;
+                    ViewCompat.setHasTransientState(FoldingCell.this, false);
                 }
             });
 
@@ -193,6 +196,8 @@ public class FoldingCell extends RelativeLayout {
             this.getLayoutParams().height = titleView.getHeight();
         } else {
 
+            ViewCompat.setHasTransientState(FoldingCell.this, true);
+
             // create empty layout for folding animation
             final LinearLayout foldingLayout = createAndPrepareFoldingContainer();
             // add that layout to structure
@@ -214,6 +219,8 @@ public class FoldingCell extends RelativeLayout {
                     FoldingCell.this.removeView(foldingLayout);
                     FoldingCell.this.mAnimationInProgress = false;
                     FoldingCell.this.mUnfolded = false;
+
+                    ViewCompat.setHasTransientState(FoldingCell.this, false);
                 }
             });
             startCollapseHeightAnimation(heights, part90degreeAnimationDuration * 2);
