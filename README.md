@@ -1,5 +1,6 @@
 ![header](./header.png)
-![Animation](./folding_cell_preview.gif)
+<img src="https://github.com/Ramotion/folding-cell-android/blob/master/folding_cell_preview.gif" width="600" height="450" />
+<br><br/>
 
 # FoldingCell for Android
 [![Circle CI](https://circleci.com/gh/Ramotion/folding-cell-android.svg?style=svg)](https://circleci.com/gh/Ramotion/folding-cell-android)
