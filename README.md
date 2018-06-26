@@ -140,6 +140,10 @@ fc.initialize(30, 1000, Color.DKGRAY, 2);
 ​
 You can find this and other, more complex, examples in this repository
 ​
+
+<br>
+This library is a part of a <a href="https://github.com/Ramotion/android-ui-animation-components-and-libraries"><b>selection of our best UI open-source projects.</b></a>
+
 ## Licence
 ​
 Folding cell is released under the MIT license.
