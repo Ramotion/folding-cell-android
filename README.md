@@ -2,6 +2,8 @@
 <img src="https://github.com/Ramotion/folding-cell-android/blob/master/folding_cell_preview.gif" width="600" height="450" />
 <br><br/>
 
+<b>[Get a Free Samsung Clay White Mockup for your next project](https://store.ramotion.com/product/samsung-clay-mockups?utm_source=gthb&utm_medium=special&utm_campaign=folding-cell-android#demo)</b>
+
 # FoldingCell for Android
 [![Circle CI](https://circleci.com/gh/Ramotion/folding-cell-android.svg?style=svg)](https://circleci.com/gh/Ramotion/folding-cell-android)
 [![Codacy Badge](https://api.codacy.com/project/badge/grade/339ae33122964163a55a5e8e90619cbc)](https://www.codacy.com/app/juri-v/folding-cell-android)
@@ -143,6 +145,9 @@ You can find this and other, more complex, examples in this repository
 
 <br>
 This library is a part of a <a href="https://github.com/Ramotion/android-ui-animation-components-and-libraries"><b>selection of our best UI open-source projects</b></a>
+
+
+If you use the open-source library in your project, please make sure to credit and backlink to www.ramotion.com
 
 ## Licence
 ​
