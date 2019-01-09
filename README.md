@@ -13,7 +13,7 @@ ___
 
 
 <p><h6>We specialize in the designing and coding of custom UI for Mobile Apps and Websites.</h6>
-<a href="https://dev.ramotion.com?utm_source=gthb&utm_medium=repo&utm_campaign=folding-cell">
+<a href="https://dev.ramotion.com?utm_source=gthb&utm_medium=repo&utm_campaign=folding-cell-android">
 <img src="https://github.com/ramotion/gliding-collection/raw/master/contact_our_team@2x.png" width="187" height="34"></a>
 </p>
 <p><h6>Stay tuned for the latest updates:</h6>
