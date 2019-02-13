@@ -1,7 +1,6 @@
 package com.ramotion.foldingcell.examples.listview;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +12,8 @@ import com.ramotion.foldingcell.examples.R;
 
 import java.util.HashSet;
 import java.util.List;
+
+import androidx.annotation.NonNull;
 
 /**
  * Simple example of ListAdapter for using with Folding Cell
