@@ -24,6 +24,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import androidx.core.view.ViewCompat;
+
 /**
  * Very first implementation of Folding Cell by Ramotion for Android platform
  */
@@ -137,6 +139,7 @@ public class FoldingCell extends RelativeLayout {
             FoldingCell.this.mAnimationInProgress = false;
             this.getLayoutParams().height = contentView.getHeight();
         } else {
+            ViewCompat.setHasTransientState(this, true);
             // create layout container for animation elements
             final LinearLayout foldingLayout = createAndPrepareFoldingContainer();
             this.addView(foldingLayout);
@@ -154,13 +157,13 @@ public class FoldingCell extends RelativeLayout {
                     FoldingCell.this.removeView(foldingLayout);
                     FoldingCell.this.mUnfolded = true;
                     FoldingCell.this.mAnimationInProgress = false;
+                    ViewCompat.setHasTransientState(FoldingCell.this, true);
                 }
             });
 
             startExpandHeightAnimation(heights, part90degreeAnimationDuration * 2);
             this.mAnimationInProgress = true;
         }
-
     }
 
     /**
@@ -192,7 +195,7 @@ public class FoldingCell extends RelativeLayout {
             FoldingCell.this.mUnfolded = false;
             this.getLayoutParams().height = titleView.getHeight();
         } else {
-
+            ViewCompat.setHasTransientState(this, true);
             // create empty layout for folding animation
             final LinearLayout foldingLayout = createAndPrepareFoldingContainer();
             // add that layout to structure
@@ -214,13 +217,12 @@ public class FoldingCell extends RelativeLayout {
                     FoldingCell.this.removeView(foldingLayout);
                     FoldingCell.this.mAnimationInProgress = false;
                     FoldingCell.this.mUnfolded = false;
+                    ViewCompat.setHasTransientState(FoldingCell.this, true);
                 }
             });
             startCollapseHeightAnimation(heights, part90degreeAnimationDuration * 2);
             this.mAnimationInProgress = true;
         }
-
-
     }
 
 
@@ -523,5 +525,4 @@ public class FoldingCell extends RelativeLayout {
             }
         }
     }
-
 }
