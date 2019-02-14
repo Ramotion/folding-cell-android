@@ -36,22 +36,22 @@ ___
 
 ## Installation
 ​
-Just download the package from [here](http://central.maven.org/maven2/com/ramotion/foldingcell/folding-cell/1.2.2/folding-cell-1.2.2.aar) and add it to your project classpath, or just use the maven repo:
+Just download the package from [here](http://central.maven.org/maven2/com/ramotion/foldingcell/folding-cell/1.2.3/folding-cell-1.2.3.aar) and add it to your project classpath, or just use the maven repo:
 
 Gradle:
 ```groovy
-'com.ramotion.foldingcell:folding-cell:1.2.2'
+'com.ramotion.foldingcell:folding-cell:1.2.3'
 ```
 SBT:
 ```scala
-libraryDependencies += "com.ramotion.foldingcell" % "folding-cell" % "1.2.2"
+libraryDependencies += "com.ramotion.foldingcell" % "folding-cell" % "1.2.3"
 ```
 Maven:
 ```xml
 <dependency>
 	<groupId>com.ramotion.foldingcell</groupId>
 	<artifactId>folding-cell</artifactId>
-	<version>1.2.2</version>
+	<version>1.2.3</version>
 </dependency>
 ```
 ​
