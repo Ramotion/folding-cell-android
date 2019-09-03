@@ -3,11 +3,11 @@ apply plugin: 'com.android.application'
 version = '1.2.1'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
     defaultConfig {
         applicationId "com.ramotion.foldingcell.examples.simple"
         minSdkVersion 14
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode 3
         versionName version
     }
