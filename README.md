@@ -1,4 +1,4 @@
-<img src="https://github.com/Ramotion/folding-cell/blob/master/header.png">
+<a href="https://www.ramotion.com/agency/app-development?utm_source=gthb&utm_medium=repo&utm_campaign=folding-cell-android"><img src="https://github.com/Ramotion/folding-cell/blob/master/header.png"></a>
 
 <a href="https://github.com/Ramotion/folding-cell-android">
 <img align="left" src="https://github.com/Ramotion/folding-cell-android/blob/master/folding_cell_preview.gif" width="480" height="360" /></a>
@@ -13,13 +13,12 @@ ___
 
 
 <p><h6>We specialize in the designing and coding of custom UI for Mobile Apps and Websites.</h6>
-<a href="https://dev.ramotion.com?utm_source=gthb&utm_medium=repo&utm_campaign=folding-cell-android">
+<a href="https://www.ramotion.com/agency/app-development?utm_source=gthb&utm_medium=repo&utm_campaign=folding-cell-android">
 <img src="https://github.com/ramotion/gliding-collection/raw/master/contact_our_team@2x.png" width="187" height="34"></a>
 </p>
 <p><h6>Stay tuned for the latest updates:</h6>
 <a href="https://goo.gl/rPFpid" >
 <img src="https://i.imgur.com/ziSqeSo.png/" width="156" height="28"></a></p>
-<h6><a href="https://store.ramotion.com/product/samsung-clay-mockups?utm_source=gthb&utm_medium=special&utm_campaign=folding-cell-android#demo">Get Free Samsung Mockup For your project →</a></h6>
 
 </br>
 
@@ -173,5 +172,5 @@ Try this UI component and more like this in our Android app. Contact us if inter
 <a href="https://play.google.com/store/apps/details?id=com.ramotion.showroom" >
 <img src="https://raw.githubusercontent.com/Ramotion/react-native-circle-menu/master/google_play@2x.png" width="104" height="34"></a>
 
-<a href="https://dev.ramotion.com?utm_source=gthb&utm_medium=repo&utm_campaign=folding-cell-android">
+<a href="https://www.ramotion.com/agency/app-development?utm_source=gthb&utm_medium=repo&utm_campaign=folding-cell-android">
 <img src="https://github.com/ramotion/gliding-collection/raw/master/contact_our_team@2x.png" width="187" height="34"></a>
