@@ -141,7 +141,7 @@ public class FoldingCell extends RelativeLayout {
         } else {
             ViewCompat.setHasTransientState(this, true);
             // create layout container for animation elements
-            final LinearLayout foldingLayout = createAndPrepareFoldingContainer();
+            final LinearLayout foldingLayout = createAndPrepareFoldingContainer(titleView.getHeight());
             this.addView(foldingLayout);
             // calculate heights of animation parts
             ArrayList<Integer> heights = calculateHeightsForAnimationParts(titleView.getHeight(), contentView.getHeight(), mAdditionalFlipsCount);
@@ -197,7 +197,7 @@ public class FoldingCell extends RelativeLayout {
         } else {
             ViewCompat.setHasTransientState(this, true);
             // create empty layout for folding animation
-            final LinearLayout foldingLayout = createAndPrepareFoldingContainer();
+            final LinearLayout foldingLayout = createAndPrepareFoldingContainer(contentView.getHeight());
             // add that layout to structure
             this.addView(foldingLayout);
 
@@ -366,12 +366,12 @@ public class FoldingCell extends RelativeLayout {
      *
      * @return Configured container for animation elements (LinearLayout)
      */
-    protected LinearLayout createAndPrepareFoldingContainer() {
+    protected LinearLayout createAndPrepareFoldingContainer(int initHeight) {
         LinearLayout foldingContainer = new LinearLayout(getContext());
         foldingContainer.setClipToPadding(false);
         foldingContainer.setClipChildren(false);
         foldingContainer.setOrientation(LinearLayout.VERTICAL);
-        foldingContainer.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+        foldingContainer.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, initHeight));
         return foldingContainer;
     }
 
