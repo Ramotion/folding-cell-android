@@ -35,7 +35,7 @@ ___
 
 ## Installation
 ​
-Just download the package from [here](http://central.maven.org/maven2/com/ramotion/foldingcell/folding-cell/1.2.3/folding-cell-1.2.3.aar) and add it to your project classpath, or just use the maven repo:
+Just download the package from [here](https://repo1.maven.org/maven2/com/ramotion/foldingcell/folding-cell/1.2.3/folding-cell-1.2.3.aar) and add it to your project classpath, or just use the maven repo:
 
 Gradle:
 ```groovy
