@@ -11,3 +11,6 @@ test:
     - find . -type f -regex ".*/folding-cell/build/test-results/**/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
     - ./gradlew jacocoReport
     - codacy-coverage-reporter -l Java -r folding-cell/build/reports/jacoco/jacocoReport/jacocoReport.xml
+machine:
+  java:
+    version: oraclejdk8

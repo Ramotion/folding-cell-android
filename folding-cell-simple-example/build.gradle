@@ -1,17 +1,15 @@
 apply plugin: 'com.android.application'
 
-group = 'com.ramotion.foldingcell.examples'
-version = '1.0.0'
+version = '1.2.1'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion '23.0.2'
+    compileSdkVersion 29
     defaultConfig {
         applicationId "com.ramotion.foldingcell.examples.simple"
-        minSdkVersion 17
-        targetSdkVersion 23
-        versionCode 1
-        versionName "1.0.0"
+        minSdkVersion 14
+        targetSdkVersion 29
+        versionCode 3
+        versionName version
     }
     buildTypes {
         release {
@@ -24,8 +22,10 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    testCompile 'junit:junit:4.12'
-    compile project(':folding-cell')
-    compile 'com.android.support:appcompat-v7:23.2.0'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation project(':folding-cell')
+
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+
+    testImplementation 'junit:junit:4.12'
 }

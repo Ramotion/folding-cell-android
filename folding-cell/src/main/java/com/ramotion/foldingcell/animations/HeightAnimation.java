@@ -6,7 +6,7 @@ import android.view.animation.Interpolator;
 import android.view.animation.Transformation;
 
 /**
- * Height animation implementation
+ * Height animation for cell container to change cell size according to flip animation.
  */
 public class HeightAnimation extends Animation {
 

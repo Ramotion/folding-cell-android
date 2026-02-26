@@ -7,8 +7,9 @@ import android.view.animation.Interpolator;
 import android.view.animation.Transformation;
 
 /**
- * Main piece of fold animation
+ * Main piece of fold animation. Rotates view in 3d space around one of view borders.
  */
+@SuppressWarnings("unused")
 public class FoldAnimation extends Animation {
 
     public enum FoldAnimationMode {
@@ -16,17 +17,18 @@ public class FoldAnimation extends Animation {
     }
 
     private final FoldAnimationMode mFoldMode;
-
+    private final int mCameraHeight;
     private float mFromDegrees;
     private float mToDegrees;
     private float mCenterX;
     private float mCenterY;
     private Camera mCamera;
 
-    public FoldAnimation(FoldAnimationMode foldMode, long duration) {
+    public FoldAnimation(FoldAnimationMode foldMode, int cameraHeight, long duration) {
         this.mFoldMode = foldMode;
         this.setFillAfter(true);
         this.setDuration(duration);
+        this.mCameraHeight = cameraHeight;
     }
 
     public FoldAnimation withAnimationListener(AnimationListener animationListener) {
@@ -50,6 +52,8 @@ public class FoldAnimation extends Animation {
     public void initialize(int width, int height, int parentWidth, int parentHeight) {
         super.initialize(width, height, parentWidth, parentHeight);
         this.mCamera = new Camera();
+        mCamera.setLocation(0, 0, -mCameraHeight);
+
         this.mCenterX = width / 2;
         switch (mFoldMode) {
             case FOLD_UP:
