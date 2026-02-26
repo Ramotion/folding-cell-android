@@ -1,18 +1,18 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
-
 buildscript {
     repositories {
+        google()
         jcenter()
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.3'
+        classpath 'com.android.tools.build:gradle:3.6.2'
         classpath 'com.bmuschko:gradle-nexus-plugin:2.3.1'
     }
 }
 
 allprojects {
     repositories {
+        google()
         jcenter()
     }
 }

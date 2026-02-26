@@ -24,13 +24,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import androidx.core.view.ViewCompat;
+
 /**
  * Very first implementation of Folding Cell by Ramotion for Android platform
- * TODO: Update javadoc
  */
 public class FoldingCell extends RelativeLayout {
-
-    private final String TAG = "folding-cell";
 
     // state variables
     private boolean mUnfolded;
@@ -48,22 +47,35 @@ public class FoldingCell extends RelativeLayout {
     private int mAdditionalFlipsCount = DEF_ADDITIONAL_FLIPS;
     private int mCameraHeight = DEF_CAMERA_HEIGHT;
 
+    public FoldingCell(Context context) {
+        this(context, null);
+    }
+
     public FoldingCell(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        initializeFromAttributes(context, attrs);
-        this.setClipChildren(false);
-        this.setClipToPadding(false);
+        this(context, attrs, 0);
     }
 
     public FoldingCell(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        initializeFromAttributes(context, attrs);
-        this.setClipChildren(false);
-        this.setClipToPadding(false);
-    }
 
-    public FoldingCell(Context context) {
-        super(context);
+        TypedArray styledAttrs = context.obtainStyledAttributes(attrs, R.styleable.FoldingCell);
+        if (styledAttrs!=null){
+            final int count = styledAttrs.getIndexCount();
+            for (int i = 0; i < count; ++i) {
+                int attr = styledAttrs.getIndex(i);
+                if (attr == R.styleable.FoldingCell_animationDuration) {
+                    this.mAnimationDuration = styledAttrs.getInt(R.styleable.FoldingCell_animationDuration, DEF_ANIMATION_DURATION);
+                } else if (attr == R.styleable.FoldingCell_backSideColor) {
+                    this.mBackSideColor = styledAttrs.getColor(R.styleable.FoldingCell_backSideColor, DEF_BACK_SIDE_COLOR);
+                } else if (attr == R.styleable.FoldingCell_additionalFlipsCount) {
+                    this.mAdditionalFlipsCount = styledAttrs.getInt(R.styleable.FoldingCell_additionalFlipsCount, DEF_ADDITIONAL_FLIPS);
+                } else if (attr == R.styleable.FoldingCell_cameraHeight) {
+                    this.mCameraHeight = styledAttrs.getInt(R.styleable.FoldingCell_cameraHeight, DEF_CAMERA_HEIGHT);
+                }
+            }
+            styledAttrs.recycle();
+        }
+
         this.setClipChildren(false);
         this.setClipToPadding(false);
     }
@@ -127,6 +139,7 @@ public class FoldingCell extends RelativeLayout {
             FoldingCell.this.mAnimationInProgress = false;
             this.getLayoutParams().height = contentView.getHeight();
         } else {
+            ViewCompat.setHasTransientState(this, true);
             // create layout container for animation elements
             final LinearLayout foldingLayout = createAndPrepareFoldingContainer();
             this.addView(foldingLayout);
@@ -144,13 +157,13 @@ public class FoldingCell extends RelativeLayout {
                     FoldingCell.this.removeView(foldingLayout);
                     FoldingCell.this.mUnfolded = true;
                     FoldingCell.this.mAnimationInProgress = false;
+                    ViewCompat.setHasTransientState(FoldingCell.this, true);
                 }
             });
 
             startExpandHeightAnimation(heights, part90degreeAnimationDuration * 2);
             this.mAnimationInProgress = true;
         }
-
     }
 
     /**
@@ -182,7 +195,7 @@ public class FoldingCell extends RelativeLayout {
             FoldingCell.this.mUnfolded = false;
             this.getLayoutParams().height = titleView.getHeight();
         } else {
-
+            ViewCompat.setHasTransientState(this, true);
             // create empty layout for folding animation
             final LinearLayout foldingLayout = createAndPrepareFoldingContainer();
             // add that layout to structure
@@ -204,13 +217,12 @@ public class FoldingCell extends RelativeLayout {
                     FoldingCell.this.removeView(foldingLayout);
                     FoldingCell.this.mAnimationInProgress = false;
                     FoldingCell.this.mUnfolded = false;
+                    ViewCompat.setHasTransientState(FoldingCell.this, true);
                 }
             });
             startCollapseHeightAnimation(heights, part90degreeAnimationDuration * 2);
             this.mAnimationInProgress = true;
         }
-
-
     }
 
 
@@ -262,7 +274,6 @@ public class FoldingCell extends RelativeLayout {
 
     /**
      * Calculate heights for animation parts with some logic
-     * TODO: Add detailed descriptions for logic
      *
      * @param titleViewHeight      height of title view
      * @param contentViewHeight    height of content view
@@ -415,7 +426,7 @@ public class FoldingCell extends RelativeLayout {
     }
 
     /**
-     * Create "animation chain" for selected view from list of animations objects
+     * Create "animation chain" for selected view from list of animation objects
      *
      * @param animationList   collection with animations
      * @param animationObject view for animations
@@ -514,42 +525,4 @@ public class FoldingCell extends RelativeLayout {
             }
         }
     }
-
-    /**
-     * Initialize folding cell with parameters from attribute
-     *
-     * @param context context
-     * @param attrs   attributes
-     */
-    protected void initializeFromAttributes(Context context, AttributeSet attrs) {
-        TypedArray array = context.getTheme().obtainStyledAttributes(attrs, R.styleable.FoldingCell, 0, 0);
-        try {
-            this.mAnimationDuration = array.getInt(R.styleable.FoldingCell_animationDuration, DEF_ANIMATION_DURATION);
-            this.mBackSideColor = array.getColor(R.styleable.FoldingCell_backSideColor, DEF_BACK_SIDE_COLOR);
-            this.mAdditionalFlipsCount = array.getInt(R.styleable.FoldingCell_additionalFlipsCount, DEF_ADDITIONAL_FLIPS);
-            this.mCameraHeight = array.getInt(R.styleable.FoldingCell_cameraHeight, DEF_CAMERA_HEIGHT);
-        } finally {
-            array.recycle();
-        }
-    }
-
-    /**
-     * Instantly change current state of cell to Folded without any animations
-     */
-    protected void setStateToFolded() {
-        if (this.mAnimationInProgress || !this.mUnfolded) return;
-        // get basic views
-        final View contentView = getChildAt(0);
-        if (contentView == null) return;
-        final View titleView = getChildAt(1);
-        if (titleView == null) return;
-        contentView.setVisibility(GONE);
-        titleView.setVisibility(VISIBLE);
-        FoldingCell.this.mUnfolded = false;
-        ViewGroup.LayoutParams layoutParams = this.getLayoutParams();
-        layoutParams.height = titleView.getHeight();
-        this.setLayoutParams(layoutParams);
-        this.requestLayout();
-    }
-
 }

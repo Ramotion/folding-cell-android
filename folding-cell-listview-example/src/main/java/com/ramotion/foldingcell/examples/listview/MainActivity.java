@@ -1,7 +1,6 @@
 package com.ramotion.foldingcell.examples.listview;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -11,6 +10,8 @@ import com.ramotion.foldingcell.FoldingCell;
 import com.ramotion.foldingcell.examples.R;
 
 import java.util.ArrayList;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * Example of using Folding Cell with ListView and ListAdapter
@@ -23,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // get our list view
-        ListView theListView = (ListView) findViewById(R.id.mainListView);
+        ListView theListView = findViewById(R.id.mainListView);
 
         // prepare elements to display
         final ArrayList<Item> items = Item.getTestingList();
